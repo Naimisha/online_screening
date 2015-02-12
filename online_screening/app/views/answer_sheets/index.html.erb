@@ -1,3 +1,8 @@
+<% if flash[:errors]%>
+   <%=flash[:errors]%>
+<% else %>
+
+
 <form name="test" action="/answer_sheets/display_test" method="post" ng-init="initParam('<%= @countdown %>','<%= Socket.ip_address_list[1].ip_address%>'); " ng-controller="QuestionCtrl as question_ctrl">
 		<div class="row">
 			<div class="col-sm-10">
@@ -78,3 +83,4 @@
 			</small>
 		</div>
 </form>
+<% end %>

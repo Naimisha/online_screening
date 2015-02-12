@@ -8,14 +8,18 @@ class AnswerSheetsController < ApplicationController
 		unless @users_question.score.nil?
 			redirect_to :action => 'show_result'
 		else
-			$page_title = "Exam"
-			@question_collection = @users_question
-			@countdown = @users_question.end_time - Time.now
-			puts @countdown 
-			respond_to do |format|
-		    	format.html { respond_with(@addr,@countdown) }
-		    	format.json { render json: @question_collection}
-	    	end
+			if request.remote_ip == @users_question.start_test_ip
+				$page_title = "Exam"
+				@question_collection = @users_question
+				@countdown = @users_question.end_time - Time.now
+				puts @countdown 
+				respond_to do |format|
+			    	format.html { respond_with(@addr,@countdown) }
+			    	format.json { render json: @question_collection}
+		    	end
+	   		else
+	   			flash[:errors]="You can not access exam from this machines"
+	   		end
 	    end
 	end
 
@@ -182,7 +186,7 @@ class AnswerSheetsController < ApplicationController
 				    user_answersheet.result=JSON.parse(result_str)
 				    user_answersheet.user_id=current_user.id
 				    user_answersheet.exam_id=@exam.id
-
+				    user_answersheet.start_test_ip=request.remote_ip
 				    user_answersheet.save
 			else
 					flash[:errors]="No exam is Active Now"

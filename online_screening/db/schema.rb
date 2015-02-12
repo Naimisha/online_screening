@@ -11,18 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210173816) do
+ActiveRecord::Schema.define(version: 20150212131556) do
 
   create_table "answer_sheets", force: :cascade do |t|
-    t.text     "answer",     limit: 65535
-    t.text     "result",     limit: 65535
-    t.integer  "score",      limit: 4
-    t.integer  "user_id",    limit: 4
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "exam_id",    limit: 4
+    t.text     "answer",        limit: 65535
+    t.text     "result",        limit: 65535
+    t.integer  "score",         limit: 4
+    t.integer  "user_id",       limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "exam_id",       limit: 4
     t.datetime "start_time"
     t.datetime "end_time"
+    t.string   "start_test_ip", limit: 255
   end
 
   add_index "answer_sheets", ["exam_id"], name: "index_answer_sheets_on_exam_id", using: :btree
