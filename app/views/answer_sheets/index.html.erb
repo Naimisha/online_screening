@@ -1,0 +1,80 @@
+<form name="test" action="/answer_sheets/display_test" method="post" ng-init="initParam('<%= @countdown %>','<%= Socket.ip_address_list[1].ip_address%>'); " ng-controller="QuestionCtrl as question_ctrl">
+		<div class="row">
+			<div class="col-sm-10">
+				<small>This question carries {{question_weightage}} marks.</small>
+				<h4>Q{{question_no+1}}. {{quest}}</h4>
+				<div class="col-sm-5">
+					<div class="row">
+						<div ng-repeat="option in options" ng-if = "question_type == 'mcq'">
+							<div class="col-sm-4"></div>
+							<div class="radio">
+								<input type="radio" name ="ans"  value="{{option.opt}}" ng-model="answer" ng-click="setAnswer(option.opt)"><h4>{{option.opt}}</h4>
+							</div>
+						</div>
+								
+						<div ng-repeat="option in options" ng-if = "question_type == 'multi'">
+							<div class="col-sm-4"></div>
+							<div class="checkbox">
+								<input type="checkbox" name ="answer" value="{{option.opt}}" ng-model="given_answer[$index]" ng-true-value="{{option.opt}}" ng-false-value="#" ><h4>{{option.opt}}</h4>
+							</div>
+						</div>	
+
+					    <div ng-show= "question_type=='numerical'">
+					    	<div class="col-sm-4"></div>
+					    	<div class="col-sm-6">
+					    		<input class="form-control" id="ans" placeholder="Answer" type="text" name="ans" ng-model="answer">
+					    	</div>
+					    </div>
+					</div>
+				</div>
+				<div ng-if="image!=''" class="col-sm-7">
+					<img src="{{'/images/'+image}}" style="width: 600px;"></img>
+				</div>
+			</div>
+			<div class="col-sm-2 bg-info bottom-padding">
+				<div class="row bg-primary">
+					<center>
+						<h5>Ramaining Time</h5>
+						<div>
+							<span class="glyphicon glyphicon-time"></span>&nbsp;
+							<span id="timer" class="Timer"></span>
+						</div>
+					</center>
+				</div>
+				<div class="row bg-info bottom-padding">
+					<center>
+						<h5>Question navigation</h5>
+						<span ng-repeat="question in questions track by $index">
+							<span ng-show="!isAnswered($index)">
+								<button class="btn btn-danger button-margin" type="button" ng-click="setQuestionNo($index)">
+									{{$index+1}}
+								</button>
+							</span>
+							<span ng-show="isAnswered($index)">
+								<button class="btn btn-success button-margin" type="button" ng-click="setQuestionNo($index)">
+									{{$index+1}}
+								</button>
+							</span>
+						</span>
+					</center>
+				</div>
+			</div>
+		</div>
+		<div class="navbar navbar-fixed-bottom navbar-default">
+			<div class="col-sm-5"></div>
+			<div class="col-sm-7">
+				<button class="btn btn-danger navbar-btn" type="button" ng-click="clearResponse()">Clear</button>
+
+				<button class="btn btn-primary navbar-btn" type="button" name="Back" ng-click="decrementQuestionNo()" ng-disabled="isFirstQuestion()">Back</button>
+
+		    	
+
+		    	<button type="button" class="btn btn-success navbar-btn" name="save" ng-click="submitAnswer()" ng-disabled="isLastQuestion()">Next</button>
+
+		    	<button class="btn btn-warning navbar-btn" name="Finish" ng-disabled="!isLastQuestion()" ng-click="submitAnswer()">Finish</button>
+		    </div>
+			<small style="float:right">
+				Powered By <a href="http://www.infibeam.com">Infibeam</a>
+			</small>
+		</div>
+</form>

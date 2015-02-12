@@ -1,0 +1,22 @@
+<center>
+<h2>Forgot password</h2>
+<br/>
+<h5>Login credentials will be sent in E-mail. </h5>
+<table class="table-condensed table-responsive">
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), role:"form",  html: { method: :post })  do |f| %>
+  <%= devise_error_messages! %>
+  <tr>
+  <div class="field">
+    <td><%= f.label :email %><br />
+    <td><%= f.email_field :email, autofocus: true %>
+  </div>
+  </tr>
+   <tr>
+   <td/>
+  <div class="actions">
+  <td> <%= f.submit "Submit" %>
+  </div>
+  </tr>
+<% end %>
+</table>
+</center>

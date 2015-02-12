@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  answer: MyString
+  result: MyString
+  score: 1
+  user_id: 
+
+two:
+  answer: MyString
+  result: MyString
+  score: 1
+  user_id: 
