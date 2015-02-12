@@ -1,0 +1,77 @@
+<%= form_for(@exam) do |f| %>
+  <% if @exam.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this exam from being saved:</h2>
+
+      <ul>
+      <% @exam.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.label :exam_name %>
+      <%= f.text_field :exam_name, :class => "form-control" %>
+    </div>
+  </div><br>  
+  
+  <div class="row" >
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.label :date %>
+      <%= f.date_field :date, :class => "form-control"%>
+    </div>
+  </div><br>
+
+  <div class="row" style="display: none;" >
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.label :time %>
+      <%= f.time_field :time, :class => "form-control"%>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.label :duration_mins%>
+      <%= f.number_field :duration_mins, :class => "form-control" %>
+    </div>
+  </div><br>
+
+  <div class="row" >
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.label :start_window_time, "Start Window Time" %>
+      <%= f.time_field :start_window_time, :class => "form-control"%>
+    </div>
+  </div><br>
+
+  <div class="row" >
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.label :end_window_time, "End Window Time" %>
+      <%= f.time_field :end_window_time, :class => "form-control"%>
+    </div>
+  </div><br>
+
+  <div class="row">
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.label :college_name %>
+      <%= f.text_field :college_name, :class => "form-control" %>
+    </div>
+  </div><br> 
+
+  <div class="row">
+    <div class="col-sm-0"></div>
+    <div class="col-sm-6">
+      <%= f.submit :class => "btn btn-primary" %>
+    </div>
+  </div>
+
+<% end %>

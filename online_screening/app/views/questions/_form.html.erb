@@ -1,0 +1,89 @@
+<div ng-controller="OptionCtrl" ng-init="initOptions('<%= @question[:options] %>','<%= @question[:answer] %>','<%= @question[:qtype] %>','<%= @question[:image] %>')">
+
+<%= form_for(@question, :html =>{:'ng-submit'=>"validateForm($event)"}) do |f| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% @question.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="field">
+          <%= f.label :question %>
+          <%= f.text_area :question, :class => "form-control" %><br>
+      </div>
+
+      <div>
+        <input type="checkbox" name="image" ng-model="image"><b>&nbsp;&nbsp;Tick to add image (if any)</b><br><br>
+      </div>
+
+      <div ng-if="image">
+        <% if @question[:image] != nil %>
+          <%= f.label :image, "Change Image" %>
+        <% else %>
+          <%= f.label :image, "Select Image" %>
+        <% end %> 
+        <%= f.file_field :image, :class => "form-control" %><br>
+      </div>
+
+      <div class="field">
+          <%= f.label :qtype, "Question type" %>
+          <%= f.select :qtype, [['Single Correct Answer Type', 'mcq'], ['Multiple Correct Answer Type', 'multi'], ['Numerical Answer Type', 'numerical']], {}, :'ng-model' => "qtype", :class => "form-control" %><br>
+      </div>
+
+      <div style="display:none">
+        <%= f.label :options %>
+        <%= f.text_field :options %>
+      </div>
+
+      <div style="display:none">
+        <%= f.label :answer %>
+        <%= f.text_field :answer %>
+      </div>
+
+      <div class="field">
+          <%= f.label :weightage%>
+          <%= f.number_field :weightage, :class => "form-control" %><br>
+      </div>
+
+      <div class="field">
+          <%= f.submit :class => "btn btn-primary" %>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div ng-if="qtype != 'numerical'">
+        <div class="field">
+            <%= f.label :nooptions, "Total Options"%>
+            <%= f.text_field :nooptions, :'ng-model' => "nooptions", :class => "form-control" %><br>
+        </div>
+        <div ng-repeat="n in [] | range:nooptions">
+          <div class="field">
+              <span ng-switch on="qtype">
+                <span ng-switch-when="mcq"><input type="radio" name="ans" value="{{$index+1}}" ng-checked="checkAns[$index]"></span>
+                <span ng-switch-when="multi"><input type="checkbox" name="ans{{$index+1}}" value="{{$index+1}}" ng-checked="checkAns[$index]"></span>
+              </span>
+              <span>
+                <label>Option{{$index+1}}</label>
+                <input type="text" name="option{{$index+1}}" placeholder="Option{{$index+1}}" ng-model="optionVal[$index]" class="form-control"><br>
+              </span>
+          </div>
+        </div>
+      </div>
+      <div ng-if="qtype == 'numerical'" class="field">
+          <label>Answer</label>
+          <input type="text" name="option1" placeholder="Answer" ng-model="optionVal[0]", class="form-control"><br>
+          <%= f.hidden_field :nooptions, :value => 1 %>
+      </div>
+    </div>
+</div>
+
+<% end %>
+
+</div>
