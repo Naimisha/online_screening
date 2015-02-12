@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   post "/answer_sheets/:id/update_result" => "answer_sheets#update_result"
   get "/answer_sheets/:id/get_answer" => "answer_sheets#get_answer"
   post "/answer_sheets/display_test" => "answer_sheets#display_test"
+  get "/answer_sheets/display_test" => "answer_sheets#display_test"
   get "/answer_sheets/result" => "answer_sheets#show_result"  
   get "/answer_sheets/start_test" => "answer_sheets#start_test"
   get "/answer_sheets/start_timer" => "answer_sheets#start_timer"
