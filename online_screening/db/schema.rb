@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(version: 20150212131556) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "timers", ["exam_id"], name: "fk_rails_b29f144422", using: :btree
-  add_index "timers", ["user_id"], name: "fk_rails_35e5dfc429", using: :btree
+  add_index "timers", ["exam_id"], name: "fk_rails_44d0647ee1", using: :btree
+  add_index "timers", ["user_id"], name: "fk_rails_b6b1126429", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
