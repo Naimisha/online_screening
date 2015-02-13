@@ -1,0 +1,9 @@
+<% if flash[:errors]%>
+   <%=flash[:errors]%>
+<% else %>
+	<form method="get" action="/answer_sheets/start_timer">
+		<input type="submit" value="Start Exam">
+	</form>
+	
+
+<%end%>

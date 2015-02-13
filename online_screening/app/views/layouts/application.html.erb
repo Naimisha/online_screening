@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>OnlineScreening</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true%>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="pragma" content="nocache">
+</head>
+<body  ng-app="Question" style="padding-top: 130px; padding-bottom: 65px; background-color: #FFFFFF;">
+	<%= render "layouts/header" %>
+	
+	<div class="container-fluid">
+		<%= yield %>
+	</div>
+
+  <%= render "layouts/footer" %>
+
+</body>
+</html>
