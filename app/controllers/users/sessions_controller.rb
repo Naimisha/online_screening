@@ -2,18 +2,13 @@ class Users::SessionsController < Devise::SessionsController
 # before_filter :configure_sign_in_params, only: [:create]
 
    #GET /resource/sign_in
-   def new
-     puts 'hello'
-       render 'questions/index'
-   end
+   #def new
+   #end
 
    #POST /resource/sign_in
-   def create
-   	puts 'hello'
-       render 'questions/index'
-       
-       #rendirect_to :controller => 'questions', :action => 'index'
-   end
+   #def create	  
+      
+   #end
 
   # DELETE /resource/sign_out
   # def destroy

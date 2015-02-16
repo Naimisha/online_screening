@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
     @question =Question.find(params[:id])
     respond_to do |format|
       format.html { respond_with(@question) }
-      format.json { render json: @question }
+      format.json { render json: @question, :except => [:answer, :created_at, :updated_at]}
     end
   end
 

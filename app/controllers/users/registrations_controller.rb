@@ -31,6 +31,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
     respond_with(@user)
   end
 
+
+
+  def reset_password
+
+      if !params[:confirm_password].nil?
+          puts "reset_password"
+          current_user.password = params[:confirm_password]
+          current_user.save
+          redirect_to root_path
+      end
+    
+  end
+
   # GET /resource/edit
   # def edit
   #   super

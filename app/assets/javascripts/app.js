@@ -85,7 +85,9 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 			setTimeout($scope.start_timer, 1000);
 		}
 		else
-			$http.get("http://"+$scope.ip_addr+":3000/answer_sheets/result.html");
+		{
+			window.location.replace("http://"+$scope.ip_addr+":3000/answer_sheets/result.html");
+		}
 
 	};
 
@@ -133,6 +135,7 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 	$scope.isLastQuestion = function(){
 		return $scope.question_no==$scope.questions.length-1;
 	};
+
 
 
 	$scope.submitAnswer=function(){
@@ -190,14 +193,13 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 			
 			$scope.answerded[$scope.question_no]=false;
 		}
-		
 
-		$http.post('http://'+$scope.ip_addr+':3000/answer_sheets/'+$scope.question_no+'/update_result.json', {answer:result}).success(function(data){}).error(function(){ document.write("error in submitAnswer")});
+		$http.post('http://'+$scope.ip_addr+':3000/answer_sheets/'+$scope.question_no+'/update_result.json', {answer:result}).success(function(data){})
 		
 		if(!$scope.isLastQuestion())
 		{
-			$scope.question_no+=1;
-			$scope.displayQuestion();
+			//$scope.question_no+=1;
+			//$scope.displayQuestion();
 		}			
 	};
 
@@ -229,19 +231,26 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 			}
 			else if($scope.question_type=="multi")
 			{
-				var hash_count=0;
-				for(var i=0;i<data.length;i++)
-				{	
-					$scope.given_answer[i]=data[i]["ans"];
-					if($scope.given_answer[i]!="#"){
-						$scope.answerded[$scope.question_no]=true;						
-					}
-					else{
-						hash_count++;
-					}
-				}
-				if(hash_count==data.length)
+				if(data[0]['ans'] == "")
+				{
 					$scope.answerded[$scope.question_no]=false;
+				}
+				else
+				{
+					var hash_count=0;
+					for(var i=0;i<data.length;i++)
+					{	
+						$scope.given_answer[i]=data[i]["ans"];
+						if($scope.given_answer[i]!="#"){
+							$scope.answerded[$scope.question_no]=true;						
+						}
+						else{
+							hash_count++;
+						}
+					}
+					if(hash_count==data.length)
+						$scope.answerded[$scope.question_no]=false;
+				}
 
 
 			}
@@ -272,6 +281,12 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 	$scope.clearResponse=function(){
 		//document.getElementById('ans').checked = false;
 		$scope.answer="";
+		if($scope.question_type == "multi")
+		{
+			for(i=0; i<$scope.options.length ; i++)
+				$scope.given_answer[i] = "#"
+		}
+		$scope.answered[$scope.question_no] = false;
 	};
 
 }] );

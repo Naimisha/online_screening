@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   devise_for :controllers
-  devise_for :users, :controllers => { :registrations => "users/registrations" }
+  devise_for :users, :controllers => { :registrations => "users/registrations",:passwords => "users/passwords" }
   devise_scope :user do 
+    get "/users/reset_passwords" => "users/registrations#reset_password"
     get "/users/:id/view_profile" => "users/registrations#view_profile"
+    post "/users/reset_password" => "users/registrations#reset_password"
+    
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -30,21 +33,26 @@ Rails.application.routes.draw do
   post "/admins/:id/addAdmin" => "admins#make_admin"
   get "/admins/:id/addAdmin" => "admins#make_admin"
 
+  get "admins/addUser" => "admins#add_users"
+
+  
+
   post "/answer_sheets/:id/update_result" => "answer_sheets#update_result"
   get "/answer_sheets/:id/get_answer" => "answer_sheets#get_answer"
   post "/answer_sheets/display_test" => "answer_sheets#display_test"
+  get "/answer_sheets/display_test" => "answer_sheets#display_test"
   get "/answer_sheets/result" => "answer_sheets#show_result"  
   get "/answer_sheets/start_test" => "answer_sheets#start_test"
   get "/answer_sheets/start_timer" => "answer_sheets#start_timer"
    
   resources :questions
-  resources :admins
+  #resources :admins
   resources :exams
   resources :answer_sheets
 
-  get '*path' => 'welcome#index'
+  #get '*path' => 'welcome#index'
 
-  
+  get '/admins' => 'admins#index'
    
 
    resources :questions do

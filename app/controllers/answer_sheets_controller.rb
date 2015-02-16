@@ -8,14 +8,18 @@ class AnswerSheetsController < ApplicationController
 		unless @users_question.score.nil?
 			redirect_to :action => 'show_result'
 		else
-			$page_title = "Exam"
-			@question_collection = @users_question
-			@countdown = @users_question.end_time - Time.now
-			puts @countdown 
-			respond_to do |format|
-		    	format.html { respond_with(@addr,@countdown) }
-		    	format.json { render json: @question_collection}
-	    	end
+			if request.remote_ip == @users_question.start_test_ip
+				$page_title = "Exam"
+				@question_collection = @users_question
+				@countdown = @users_question.end_time - Time.now
+				puts @countdown 
+				respond_to do |format|
+			    	format.html { respond_with(@addr,@countdown) }
+			    	format.json { render json: @question_collection}
+		    	end
+	   		else
+	   			flash[:errors]="You can not access exam from this machines"
+	   		end
 	    end
 	end
 
@@ -136,20 +140,7 @@ class AnswerSheetsController < ApplicationController
 	end
 
 	def start_timer
-		@users_question.start_time = Time.now
-		@exam = Exam.find(@users_question.exam_id)
-		d = Date.parse(@exam.date.to_s)
-		t1= Time.parse(@exam.end_window_time.to_s)
-		t2 = Time.mktime(d.year, d.mon, d.mday, t1.hour, t1.min)
-		@users_question.end_time = [Time.now + @exam.duration_mins.minutes, t2].min
-		@users_question.save
-		puts @users_question.end_time
-		redirect_to :action => "index"
-	end
 
-		
-	def start_test
-	
 		if @users_question.nil?
 			@exam=Exam.find_by_status("Activated");
 				
@@ -182,7 +173,7 @@ class AnswerSheetsController < ApplicationController
 				    user_answersheet.result=JSON.parse(result_str)
 				    user_answersheet.user_id=current_user.id
 				    user_answersheet.exam_id=@exam.id
-
+				    user_answersheet.start_test_ip=request.remote_ip
 				    user_answersheet.save
 			else
 					flash[:errors]="No exam is Active Now"
@@ -190,6 +181,23 @@ class AnswerSheetsController < ApplicationController
 		else
 			redirect_to :action => "index"
 		end
+
+		
+		@users_question.start_time = Time.now
+		@exam = Exam.find(@users_question.exam_id)
+		d = Date.parse(@exam.date.to_s)
+		t1= Time.parse(@exam.end_window_time.to_s)
+		t2 = Time.mktime(d.year, d.mon, d.mday, t1.hour, t1.min)
+		@users_question.end_time = [Time.now + @exam.duration_mins.minutes, t2].min
+		@users_question.save
+		puts @users_question.end_time
+		redirect_to :action => "index"
+	end
+
+		
+	def start_test
+	
+		
 	end
 
 	# def start_exam

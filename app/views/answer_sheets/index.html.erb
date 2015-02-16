@@ -1,3 +1,8 @@
+<% if flash[:errors]%>
+   <%=flash[:errors]%>
+<% else %>
+
+
 <form name="test" action="/answer_sheets/display_test" method="post" ng-init="initParam('<%= @countdown %>','<%= Socket.ip_address_list[1].ip_address%>'); " ng-controller="QuestionCtrl as question_ctrl">
 		<div class="row">
 			<div class="col-sm-10">
@@ -65,16 +70,17 @@
 			<div class="col-sm-7">
 				<button class="btn btn-danger navbar-btn" type="button" ng-click="clearResponse()">Clear</button>
 
-				<button class="btn btn-primary navbar-btn" type="button" name="Back" ng-click="decrementQuestionNo()" ng-disabled="isFirstQuestion()">Back</button>
+				<button class="btn btn-primary navbar-btn" type="button" name="Back" ng-click="submitAnswer();decrementQuestionNo()" ng-disabled="isFirstQuestion()">Back</button>
 
 		    	
 
-		    	<button type="button" class="btn btn-success navbar-btn" name="save" ng-click="submitAnswer()" ng-disabled="isLastQuestion()">Next</button>
+		    	<button type="button" class="btn btn-success navbar-btn" name="save" ng-click="submitAnswer();incrementQuestionNo();" ng-disabled="isLastQuestion();">Next</button>
 
-		    	<button class="btn btn-warning navbar-btn" name="Finish" ng-disabled="!isLastQuestion()" ng-click="submitAnswer()">Finish</button>
+		    	<button type="submit" class="btn btn-warning navbar-btn" name="Finish" ng-disabled="!isLastQuestion()" ng-click="submitAnswer();">Finish</button>
 		    </div>
 			<small style="float:right">
 				Powered By <a href="http://www.infibeam.com">Infibeam</a>
 			</small>
 		</div>
 </form>
+<% end %>
