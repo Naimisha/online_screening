@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-		#before_action :authentication
+	before_action :authentication
 
 	def index
 		$page_title = "Add Admin"
@@ -56,10 +56,12 @@ class AdminsController < ApplicationController
 	  private
 		def authentication
 			if user_signed_in?
-				unless can? :manage, :site
-					render "layouts/_notAnAdminError"
-				end
+				authorize! :manage, :site, :message => "Insufficient privileges to access the page"
+				#unless can? :manage, :site
+				#	render "layouts/_notAnAdminError"
+				#end
 			else
+				authorize! :manage, :site, :message => "Please sign in first to access the page"
 				render "layouts/_notSignedInError"
 			end
 		end	  

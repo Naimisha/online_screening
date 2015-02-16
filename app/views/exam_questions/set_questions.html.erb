@@ -45,18 +45,18 @@
 
 
 
-	<table class="table table-responsive table-bordered table-hover table-condensed">
+	<table class="table table-striped">
 		<thead>
 			<tr class="">
 				<th></th>
-				<th width="80%">Question</th>
+				<th width="70%">Question</th>
 				<th>Weightage</th>
 				<th></th>
 			</tr>
 		</thead>
 
 		<% @questions.each_with_index do |q, index| %>
-			<tr class="active">	
+			<tr class="">	
 				<td>			
 				    <input type="checkbox"  name="<%=q.id%>" value="<%=q.id%>" ng-model="selectedq[<%= q.id-1 %>]" ng-true-value="<%=q.id%>" ng-false-value="false" >				    
 				</td>
@@ -67,9 +67,9 @@
 					<%= content_tag "p", q.weightage %>
 				</td>
 				<td>	
-					<%= link_to 'Edit ', edit_question_path(q), :method=> :post %><span>|</span> 
-					<%= link_to 'Show ', question_path(q) %><span>|</span>
-					<%= link_to 'Delete', question_path(q), :method => :delete %>
+					<%= link_to 'Edit ', edit_question_path(q), :method=> :post, :class => 'btn btn-default btn-xs' %> 
+					<%= link_to 'Show ', question_path(q), :class => 'btn btn-default btn-xs' %>
+					<%= link_to 'Delete', question_path(q), :method => :delete, :class => 'btn btn-warning btn-xs' %>
 				</td>
 
 

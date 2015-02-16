@@ -1,4 +1,4 @@
-<table class="table table-responsive table-bordered table-hover table-condensed">
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>Exam Name</th>
@@ -8,7 +8,7 @@
 			<th>EWT</th>
 			<th>Duration(mins)</th>
 			
-			<th>Actions</th>
+			<th></th>
 		</tr>
 	</thead>
 	<% @exams.each do |e| %>
@@ -17,7 +17,7 @@
 		<% t2 = Time.mktime(d.year, d.mon, d.mday, t1.hour, t1.min)%>
 		<% if t2-Time.now < 0 %>
 
-		<tr class="active">					
+		<tr class="">					
 			<td>
 				<%= content_tag "p", e.exam_name %>
 			</td>
@@ -38,11 +38,10 @@
 			</td>
 			
 			<td>	
-				<%= link_to 'Edit ', edit_exam_path(e), :method=> :post %><span>|</span> 
-				<%= link_to 'Delete ', exam_path(e), :method => :delete %><span>|</span> 
-				<%= link_to 'View Questions ', "/exam_questions/"+e.id.to_s+"/view_exam_questions", :method => :post %><span>|</span> 
-				<%= link_to 'View Result', "/exams/"+e.id.to_s+"/view_result", :method => :post %>
-
+				<%= link_to 'Edit ', edit_exam_path(e), :method=> :post, :class => 'btn btn-default btn-xs' %> 
+				<%= link_to 'View Questions ', "exam_questions/"+e.id.to_s+"/view_exam_questions", :method => :post, :class => 'btn btn-default btn-xs' %>
+				<%= link_to 'View Result', "/exams/"+e.id.to_s+"/view_result", :method => :post, :class => 'btn btn-default btn-xs' %>
+				<%= link_to 'Delete ', exam_path(e), :method => :delete, :class => 'btn btn-warning btn-xs' %>
 			</td>							
 		</tr>
 		<% end %>		

@@ -1,4 +1,4 @@
-<table class="table table-responsive table-bordered table-hover table-condensed">
+<table class="table table-striped">
 	<thead>
 		<tr class="">
 			<th>Exam Name</th>
@@ -19,37 +19,24 @@
 		<% if e.status == "Activated" %>
 			<tr class="info">	
 		<% else %>
-			<tr class="active">
+			<tr class="">
 		<% end %>				
-			<td>
-				<%= content_tag "p", e.exam_name %>
-			</td>
-			<td>
-				<%= content_tag "p", e.college_name %>
-			</td>
-			<td>
-				<%= content_tag "p", e.date %>
-			</td>
-			<td>
-				<%= content_tag "p", e.start_window_time.strftime("%R") %>
-			</td>
-			<td>
-				<%= content_tag "p", e.end_window_time.strftime("%R") %>
-			</td>
-			<td>
-				<%= content_tag "p", e.duration_mins %>
-			</td>
+			<td><%= content_tag "p", e.exam_name %></td>
+			<td><%= content_tag "p", e.college_name %></td>
+			<td><%= content_tag "p", e.date %></td>
+			<td><%= content_tag "p", e.start_window_time.strftime("%R") %></td>
+			<td><%= content_tag "p", e.end_window_time.strftime("%R") %></td>
+			<td><%= content_tag "p", e.duration_mins %></td>
 			<td>	 
-				<%= link_to 'Delete ', exam_path(e), :method => :delete %><span>|</span> 
-				<%= link_to 'Set Questions ', "exams/"+e.id.to_s+"/set_questions", :method => :post %><span>|</span> 
-				<%= link_to 'View Questions ', "exam_questions/"+e.id.to_s+"/view_exam_questions", :method => :post %><span>|</span>
+				<%= link_to 'Set Questions ', "exams/"+e.id.to_s+"/set_questions", :method => :post, :class => 'btn btn-default btn-xs' %>
+				<%= link_to 'View Questions ', "exam_questions/"+e.id.to_s+"/view_exam_questions", :method => :post, :class => 'btn btn-default btn-xs' %>
 				<% if e.status == "Activated" %>
-					<%= link_to 'Deactivate ', 'exams/'+e.id.to_s+'/toggle_exam_status', :method=> :post %>
+					<%= link_to 'Deactivate ', 'exams/'+e.id.to_s+'/toggle_exam_status', :method=> :post, :class => 'btn btn-primary btn-xs' %>
 				<% else %>
-					<%= link_to 'Edit ', edit_exam_path(e), :method=> :post %><span>|</span>
-					<%= link_to 'Activate ', 'exams/'+e.id.to_s+'/toggle_exam_status', :method=> :post %>
+					<%= link_to 'Edit ', edit_exam_path(e), :method=> :post, :class => 'btn btn-default btn-xs' %>
+					<%= link_to 'Activate ', 'exams/'+e.id.to_s+'/toggle_exam_status', :method=> :post, :class => 'btn btn-primary btn-xs' %>
+					<%= link_to 'Delete ', exam_path(e), :method => :delete, :class => 'btn btn-warning btn-xs' %>
 				<% end %>
-
 			</td>							
 		</tr>
 		<% end %>		
