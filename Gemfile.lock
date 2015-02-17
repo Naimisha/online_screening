@@ -66,6 +66,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    digest (0.0.1)
     erubis (2.7.0)
     execjs (2.2.2)
     globalid (0.3.0)
@@ -180,6 +181,7 @@ DEPENDENCIES
   cancan
   coffee-rails (~> 4.1.0)
   devise
+  digest
   jbuilder (~> 2.0)
   jquery-rails
   json
