@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150212131556) do
+ActiveRecord::Schema.define(version: 20150217075129) do
 
   create_table "answer_sheets", force: :cascade do |t|
     t.text     "answer",        limit: 65535
@@ -86,15 +86,17 @@ ActiveRecord::Schema.define(version: 20150212131556) do
   add_index "privileges", ["user_id"], name: "index_privileges_on_user_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
-    t.text     "question",   limit: 65535
-    t.string   "options",    limit: 255
-    t.string   "answer",     limit: 255
-    t.integer  "weightage",  limit: 4
-    t.string   "qtype",      limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "nooptions",  limit: 4
-    t.string   "image",      limit: 255
+    t.text     "question",                limit: 65535
+    t.string   "options",                 limit: 255
+    t.string   "answer",                  limit: 255
+    t.integer  "weightage",               limit: 4
+    t.string   "qtype",                   limit: 255
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.integer  "nooptions",               limit: 4
+    t.string   "image",                   limit: 255
+    t.integer  "question_appeared_count", limit: 4,     default: 0
+    t.integer  "correct_response_count",  limit: 4,     default: 0
   end
 
   create_table "roles", force: :cascade do |t|

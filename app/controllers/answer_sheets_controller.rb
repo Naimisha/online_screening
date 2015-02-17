@@ -82,13 +82,16 @@ class AnswerSheetsController < ApplicationController
 
 	    	@ques_id=@given_ans[i]["question_id"]
 	    	@question=Question.find(@ques_id)
+	    	@question.question_appeared_count += 1
 	    	@correct_answer=@question.answer
 	    	@total+=@question.weightage    	
 	    	@given_answer=@given_ans[i]["answer"]
 
 	    	if @correct_answer == @given_answer
 	    		@score+=@question.weightage
-	    	end 	   		
+	    		@question.correct_response_count+=1
+	    	end
+	    	@question.save 	   		
 	    end
 
 	    @users_question.score=@score
@@ -168,13 +171,22 @@ class AnswerSheetsController < ApplicationController
 				    result_str.chomp!(',')
 				    result_str+="]"
 				   
-				    user_answersheet=AnswerSheet.new
-				    user_answersheet.answer=JSON.parse(answer_str)
-				    user_answersheet.result=JSON.parse(result_str)
-				    user_answersheet.user_id=current_user.id
-				    user_answersheet.exam_id=@exam.id
-				    user_answersheet.start_test_ip=request.remote_ip
-				    user_answersheet.save
+				    @user_answersheet=AnswerSheet.new
+				    @user_answersheet.answer=JSON.parse(answer_str)
+				    @user_answersheet.result=JSON.parse(result_str)
+				    @user_answersheet.user_id=current_user.id
+				    @user_answersheet.exam_id=@exam.id
+				    @user_answersheet.start_test_ip=request.remote_ip
+				    @user_answersheet.start_time = Time.now
+					@exam = Exam.find(@user_answersheet.exam_id)
+					d = Date.parse(@exam.date.to_s)
+					t1= Time.parse(@exam.end_window_time.to_s)
+					t2 = Time.mktime(d.year, d.mon, d.mday, t1.hour, t1.min)
+					@user_answersheet.end_time = [Time.now + @exam.duration_mins.minutes, t2].min
+					@user_answersheet.save
+					puts @user_answersheet.end_time
+					redirect_to :action => "index"
+				    
 			else
 					flash[:errors]="No exam is Active Now"
 			end
@@ -183,15 +195,7 @@ class AnswerSheetsController < ApplicationController
 		end
 
 		
-		@users_question.start_time = Time.now
-		@exam = Exam.find(@users_question.exam_id)
-		d = Date.parse(@exam.date.to_s)
-		t1= Time.parse(@exam.end_window_time.to_s)
-		t2 = Time.mktime(d.year, d.mon, d.mday, t1.hour, t1.min)
-		@users_question.end_time = [Time.now + @exam.duration_mins.minutes, t2].min
-		@users_question.save
-		puts @users_question.end_time
-		redirect_to :action => "index"
+		
 	end
 
 		
