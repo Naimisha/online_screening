@@ -1,59 +1,9 @@
-<section ng-init="initIP('<%=Socket.ip_address_list[1].ip_address %>');getuserData();" ng-controller="AdminCntrl as admin_cntrl">
 
-<div class="row">
-  <div class="col-sm-3"></div>
-  <div class="col-sm-6">
-    <div class="form-inline form-group">
-     <input class="form-control" type="text" placeholder="Search User" ng-model="searchText"> 
-     <button type="button" class="btn btn-default" disabled="true"><i class="glyphicon glyphicon-search"></i></button>
-    </div>
- </div>
-</div>
-<div class="row">
-  <div class="col-sm-3"></div>
-  <div class="col-sm-6">
-   <table id="searchTextResults" class="table table-responsive table-bordered table-hover table-condensed">
-    <thead>
-      <tr class="">
-        <th>User Name</th>
-        <th>Email-id</th>
-      </tr>
-    </thead>
-    <tr class="active" ng-repeat="user in user_data | filter:searchText" ng-click="open(user)">
-      <td>{{user.first_name}}  {{user.last_name}}</td> 
-      <td>&nbsp; &nbsp; &nbsp; {{user.email}}</td>
-    </tr>
-   </table>
- </div>
+<%= form_for( :admins, url:  { action: "add_users" }, :multipart => true) do |f|  %>
+<div>
+<%= f.label :userdata, "Select Excel Sheet" %>
+<%= f.file_field :userdata %>
 </div>
 
-<script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirmation!</h3>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure you want to add</p> 
-            {{to_add_admin.first_name}}  {{to_add_admin.last_name}}
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-</script>
-
-</section>
-
-
-
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Confirmation</h4>
-
-      </div>
-    </div>
-  </div>
-</div>
+<input type="submit">
+<% end %>

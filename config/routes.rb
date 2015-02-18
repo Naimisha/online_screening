@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   post "/admins/:id/addAdmin" => "admins#make_admin"
   get "/admins/:id/addAdmin" => "admins#make_admin"
 
-  get "admins/addUser" => "admins#add_users"
+  post "admins/addUser" => "admins#add_users"
 
   
 

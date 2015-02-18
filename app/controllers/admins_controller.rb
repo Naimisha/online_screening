@@ -34,8 +34,12 @@ class AdminsController < ApplicationController
 	  def add_users
 	  	require 'spreadsheet'
 	  	require 'digest/md5'
+	  	name = Time.now.to_s  #params[:question][:image].original_filename
+      	directory = "public/data"
+      	path = File.join(directory, name)
+      	File.open(path, "wb"){|f| f.write(params[:admins][:userdata].read)}
 	  	
-	  	user_details=Spreadsheet.open('/home/naimisha/user.xls');
+	  	user_details=Spreadsheet.open(path);
 	  	sheet1=user_details.worksheet('Sheet1');
 
 	  	sheet1.each 1 do |row|
@@ -48,10 +52,10 @@ class AdminsController < ApplicationController
       		p.user_id = u.id
       		p.role_id = Role.find_by_role_name("user").id;
       		p.save
-      			SendPassword.send_mail(row[6],row[6],enc_password).deliver
+      		SendPassword.send_mail(row[6],row[6],enc_password).deliver
       		
 	  	end
-
+	  	
 
 	  end
 
