@@ -1,59 +1,46 @@
-<section ng-init="initIP('<%=Socket.ip_address_list[1].ip_address %>');getuserData();" ng-controller="AdminCntrl as admin_cntrl">
-
-<div class="row">
-  <div class="col-sm-3"></div>
-  <div class="col-sm-6">
-    <div class="form-inline form-group">
-     <input class="form-control" type="text" placeholder="Search User" ng-model="searchText"> 
-     <button type="button" class="btn btn-default" disabled="true"><i class="glyphicon glyphicon-search"></i></button>
+ <center>
+ <% if flash[:admin_added] %>
+  <%= flash[:admin_added] %>
+<% end %>
+<%= form_for(:admins, url: {:action => "add_admin"}, role: "form",class: "form-horizontal") do |f|  %>
+  
+  <table class="table-condensed table-striped"  >
+  <tr>
+    <div class="field form-group">
+      <td  ><%= f.label :First_Name %>
+      <td ><%= f.text_field :first_name %>
     </div>
- </div>
-</div>
-<div class="row">
-  <div class="col-sm-3"></div>
-  <div class="col-sm-6">
-   <table id="searchTextResults" class="table table-responsive table-bordered table-hover table-condensed">
-    <thead>
-      <tr class="">
-        <th>User Name</th>
-        <th>Email-id</th>
-      </tr>
-    </thead>
-    <tr class="active" ng-repeat="user in user_data | filter:searchText" ng-click="open(user)">
-      <td>{{user.first_name}}  {{user.last_name}}</td> 
-      <td>&nbsp; &nbsp; &nbsp; {{user.email}}</td>
-    </tr>
-   </table>
- </div>
-</div>
-
-<script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirmation!</h3>
-        </div>
-        <div class="modal-body">
-          <p>Are you sure you want to add</p> 
-            {{to_add_admin.first_name}}  {{to_add_admin.last_name}}
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-</script>
-
-</section>
-
-
-
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Confirmation</h4>
-
-      </div>
+  </tr>
+  <tr>
+    <div class="field form-group">
+      <td><%= f.label :Last_Name %>
+      <td><%= f.text_field :last_name %>
     </div>
-  </div>
-</div>
+  </tr>
+  <tr>
+    <div class="field form-group">
+      <td><%= f.label :Date_of_birth %>
+      <td><%= f.date_field :date_of_birth %>
+    </div>
+  </tr>
+  <tr>  
+    <div class="field form-group">
+      <td><%= f.label :Phone_number %>
+      <td><%= f.text_field :phone_no %>
+    </div>
+  </tr>
+  <tr> 
+    <div class="field form-group">
+      <td><%= f.label :email %>
+      <td><%= f.email_field :email, autofocus: true %>
+    </div>
+  </tr>
+  <tr>
+   <div class="actions">
+      <td></td>
+      <td><%= f.submit "Add admin" %>
+    </div>
+  </tr>
+</table>
+<% end %>
+</center>

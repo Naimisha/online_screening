@@ -620,4 +620,10 @@ App.controller('printCtrl',['$scope', function($scope){
 		popupWin.document.close();*/
 
 	};
+	$scope.printUserDetails =function(){
+		var links = document.getElementById('links');
+		links.style.display = "none";
+		window.print();
+		links.style.display = "block";
+	};
 }]);

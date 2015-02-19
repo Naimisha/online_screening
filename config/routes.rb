@@ -30,9 +30,9 @@ Rails.application.routes.draw do
   post 'exams/:id/toggle_exam_status' => 'exams#toggle_exam_status'
   post '/exams/:id/view_result'=>'exams#view_result'
   get '/exams/view_result'=>'exams#view_result'
-  post "/admins/:id/addAdmin" => "admins#make_admin"
-  get "/admins/:id/addAdmin" => "admins#make_admin"
-
+  post "/admins/add_admin" => "admins#add_admin"
+  get "/admins/add_admin" => "admins#add_admin"
+  get "admins/download" => "admins#download"
   post "admins/addUser" => "admins#add_users"
 
   

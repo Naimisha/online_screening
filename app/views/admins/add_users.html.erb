@@ -1,0 +1,23 @@
+<div id="userdetails" >
+<table class = "table table-stripped table-condensed">
+	<caption> <h1> <center> User details </center> </h1> </caption>
+	<tr>
+		<th> Serial No.</th>
+		<th> Name </th>
+		<th> Email </th>
+		<th> Password </th>
+	</tr>
+	<% @users.each_with_index do |user, index| %>
+		<tr>
+			<td> <%= index+1 %> </td>
+			<td> <%= user[0] %> </td>
+			<td> <%= user[1] %> </td>
+			<td> <%= user[2] %> </td>
+		</tr>
+	<% end %>
+	</table>
+</div>
+<div id = "links" ng-controller ="printCtrl"> 	
+	<a href="/admins/download">Download</a>
+	<input type="button" value="Print" ng-click = "printUserDetails()" >
+</div>

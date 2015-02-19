@@ -11,7 +11,7 @@ test:
   username: infibeam
   password: infibeam
   host: localhost
-  socket: /tmp/mysql.sock8
+  socket: /tmp/mysql.sock
 production:
   adapter: mysql
   database: online_screening_dev

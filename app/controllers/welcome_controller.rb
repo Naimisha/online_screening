@@ -1,11 +1,18 @@
 class WelcomeController < ApplicationController
+
+ 	
  def index
  	puts 'welcome controller'
+ 	
  	#render 'questions/index'
  	if user_signed_in?
  		$page_title = "Online Screening"
  		if can? :manage, :site
- 			redirect_to :controller => 'admins', :action => 'index'
+ 			if current_user.sign_in_count == 1
+ 				redirect_to :controller => 'users/registrations', :action => 'reset_password'
+ 			else
+ 				redirect_to :controller => 'admins', :action => 'index'
+ 			end
  		else
  			puts current_user.sign_in_count
  			if current_user.sign_in_count == 1

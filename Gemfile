@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'json'
 
 gem 'digest'
+gem 'hirb'
 
 gem 'spreadsheet'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

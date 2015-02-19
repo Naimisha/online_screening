@@ -5,6 +5,10 @@
     </div>
   <% end %>
 
+  <div ng-controller = "QTypeCtrl">
+  <input type="button" value="hell testing" ng-click="postJson">
+</div>
+
 <form class="form-inline" ng-controller="QTypeCtrl" ng-init ="initParam('<%= Socket.ip_address_list[1].ip_address %>'); initWeightages('<%= @exam[:no_weightages] %>','<%= @exam[:weightages] %>','<%= @exam[:no_questions_each_weightage] %>', <%= @selected_question_ids %>,'<%= @max_id %>');">
 
 		<div class="row">
