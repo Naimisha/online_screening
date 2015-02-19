@@ -1,0 +1,20 @@
+development:
+  adapter: mysql
+  database: online_screening_dev
+  username: infibeam
+  password: infibeam
+  host: localhost
+  socket: /tmp/mysql.sock
+test:
+  adapter: mysql
+  database: online_screening_dev
+  username: infibeam
+  password: infibeam
+  host: localhost
+  socket: /tmp/mysql.sock
+production:
+  adapter: mysql
+  database: online_screening_dev
+  username: infibeam
+  password: infibeam
+  host: localhost

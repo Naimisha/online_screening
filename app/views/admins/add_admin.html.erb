@@ -1,0 +1,46 @@
+ <center>
+ <% if flash[:admin_added] %>
+  <%= flash[:admin_added] %>
+<% end %>
+<%= form_for(:admins, url: {:action => "add_admin"}, role: "form",class: "form-horizontal") do |f|  %>
+  
+  <table class="table-condensed table-striped"  >
+  <tr>
+    <div class="field form-group">
+      <td  ><%= f.label :First_Name %>
+      <td ><%= f.text_field :first_name %>
+    </div>
+  </tr>
+  <tr>
+    <div class="field form-group">
+      <td><%= f.label :Last_Name %>
+      <td><%= f.text_field :last_name %>
+    </div>
+  </tr>
+  <tr>
+    <div class="field form-group">
+      <td><%= f.label :Date_of_birth %>
+      <td><%= f.date_field :date_of_birth %>
+    </div>
+  </tr>
+  <tr>  
+    <div class="field form-group">
+      <td><%= f.label :Phone_number %>
+      <td><%= f.text_field :phone_no %>
+    </div>
+  </tr>
+  <tr> 
+    <div class="field form-group">
+      <td><%= f.label :email %>
+      <td><%= f.email_field :email, autofocus: true %>
+    </div>
+  </tr>
+  <tr>
+   <div class="actions">
+      <td></td>
+      <td><%= f.submit "Add admin" %>
+    </div>
+  </tr>
+</table>
+<% end %>
+</center>

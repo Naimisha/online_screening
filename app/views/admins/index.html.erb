@@ -1,0 +1,9 @@
+
+<%= form_for( :admins, url:  { action: "add_users" }, :multipart => true) do |f|  %>
+<div>
+<%= f.label :userdata, "Select Excel Sheet" %>
+<%= f.file_field :userdata %>
+</div>
+
+<input type="submit">
+<% end %>
