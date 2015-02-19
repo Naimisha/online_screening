@@ -12,15 +12,19 @@
 					<div class="row">
 						<div ng-repeat="option in options" ng-if = "question_type == 'mcq'">
 							<div class="col-sm-4"></div>
-							<div class="radio">
-								<input type="radio" name ="ans"  value="{{option.opt}}" ng-model="answer" ng-click="setAnswer(option.opt)"><h4>{{option.opt}}</h4>
+							<div class="col-sm-8">
+								<div class="radio">
+									<input type="radio" name ="ans"  value="{{option.opt}}" ng-model="answer" ng-click="setAnswer(option.opt)"><h4>{{option.opt}}</h4>
+								</div>
 							</div>
 						</div>
 								
 						<div ng-repeat="option in options" ng-if = "question_type == 'multi'">
 							<div class="col-sm-4"></div>
-							<div class="checkbox">
-								<input type="checkbox" name ="answer" value="{{option.opt}}" ng-model="given_answer[$index]" ng-true-value="{{option.opt}}" ng-false-value="#" ><h4>{{option.opt}}</h4>
+							<div class="col-sm-8">
+								<div class="checkbox">
+									<input type="checkbox" name ="answer" value="{{option.opt}}" ng-model="given_answer[$index]" ng-true-value="{{option.opt}}" ng-false-value="#" ><h4>{{option.opt}}</h4>
+								</div>
 							</div>
 						</div>	
 
@@ -39,7 +43,7 @@
 			<div class="col-sm-2 bg-info bottom-padding">
 				<div class="row bg-primary">
 					<center>
-						<h5>Ramaining Time</h5>
+						<h5>Remaining Time</h5>
 						<div>
 							<span class="glyphicon glyphicon-time"></span>&nbsp;
 							<span id="timer" class="Timer"></span>
