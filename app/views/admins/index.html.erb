@@ -1,9 +1,38 @@
-
-<%= form_for( :admins, url:  { action: "add_users" }, :multipart => true) do |f|  %>
-<div>
-<%= f.label :userdata, "Select Excel Sheet" %>
-<%= f.file_field :userdata %>
+<center>
+<div class="row">
+	<div class="col-sm-4"></div>
+	<div class="col-sm-4">
+	<%= form_for( :admins, url:  { action: "add_users" }, :multipart => true) do |f|  %>
+		<table class="table table-bordered">
+			<tr style="background-color: green">
+				<th class="white-link"><center><i class="glyphicon glyphicon-upload"></i>&nbsp;<%= f.label "Upload Excel Sheet" %></center></th>
+			</tr>
+			<tr>
+				<td>
+					<center>
+						<%= f.file_field :userdata, :class => "form-control" %><br>
+						<%= f.submit "Upload and Create Users", :class => "btn btn-success" %>
+					</center>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+	</div>
 </div>
-
-<input type="submit">
-<% end %>
+<div class="row">
+	<div class="col-sm-2"></div>
+	<div class="col-sm-8">
+		<table class="table table-bordered">
+			<tr style="background-color: green">
+				<th class="white-link"><center><%= label_tag "Excel Sheet Format With Sample Data" %></center></th>
+			</tr>
+			<tr>
+				<td>
+					<center><%= image_tag "sample_xls.png" %></center>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="col-sm-2"></div>
+</div>
+</center>

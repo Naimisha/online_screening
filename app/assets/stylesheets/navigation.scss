@@ -3,7 +3,12 @@
 	color: white;
 }
 
-.dropdown:hover, .dropdown-toggle:hover .white-link{
+.dropdown:hover .white-link{
+	text-decoration: none;
+	color: black;
+}
+
+.dropdown-toggle:hover .white-link{
 	text-decoration: none;
 	color: black;
 }

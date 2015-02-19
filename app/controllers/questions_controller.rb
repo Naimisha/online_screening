@@ -145,6 +145,6 @@ class QuestionsController < ApplicationController
     end
 
     def delete_image
-      @question.image = ""
+      @question.image = nil
     end
 end

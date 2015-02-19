@@ -2,12 +2,10 @@ class AdminsController < ApplicationController
 	before_action :authentication
 	respond_to :html
 	def index
-		$page_title = "Add User"
-	
+		$page_title = "Create Users"
 	end
 
 	def add_admin
- 
 		$page_title = "Add Admin"
 		if !params[:admins].nil?
 			require 'digest/md5'

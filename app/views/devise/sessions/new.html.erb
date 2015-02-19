@@ -5,7 +5,7 @@
     <% if flash[:error] != nil %>
     <div class="alert alert-warning">
       <a href="#" class="close" data-dismiss="alert">&times;</a>
-      <strong>Error:&nbsp;</strong><%= flash[:error] %>
+      <%= flash[:error] %>
     </div>
     <% end %>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name) ,role: "form", class: "form-horizontal" ) do |f| %>

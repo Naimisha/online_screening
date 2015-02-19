@@ -54,6 +54,7 @@ class ExamsController < ApplicationController
   end
 
   def view_result
+    $page_title = "Exam Results"
     if params[:id].nil?
         @exams=Exam.all
         respond_with(@exams)   

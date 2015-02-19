@@ -1,46 +1,39 @@
- <center>
- <% if flash[:admin_added] %>
+<% if flash[:admin_added] %>
   <%= flash[:admin_added] %>
 <% end %>
 <%= form_for(:admins, url: {:action => "add_admin"}, role: "form",class: "form-horizontal") do |f|  %>
   
-  <table class="table-condensed table-striped"  >
-  <tr>
-    <div class="field form-group">
-      <td  ><%= f.label :First_Name %>
-      <td ><%= f.text_field :first_name %>
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6">
+      <div class="field">
+        <%= f.label :First_Name %>
+        <%= f.text_field :first_name, :class => "form-control" %>
+      </div><br>
+
+      <div class="field">
+        <%= f.label :Last_Name %>
+        <%= f.text_field :last_name, :class => "form-control" %>
+      </div><br>
+    
+    
+      <div class="field">
+        <%= f.label :Date_of_birth %>
+        <%= f.date_field :date_of_birth, :class => "form-control" %>
+      </div><br>
+     
+      <div class="field">
+        <%= f.label :Phone_number %>
+        <%= f.text_field :phone_no, :class => "form-control" %>
+      </div><br>
+     
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, :class => "form-control" %>
+      </div><br>
+    
+      <div class="actions">
+        <%= f.submit "Add admin", :class => "btn btn-success" %>
+      </div>
     </div>
-  </tr>
-  <tr>
-    <div class="field form-group">
-      <td><%= f.label :Last_Name %>
-      <td><%= f.text_field :last_name %>
-    </div>
-  </tr>
-  <tr>
-    <div class="field form-group">
-      <td><%= f.label :Date_of_birth %>
-      <td><%= f.date_field :date_of_birth %>
-    </div>
-  </tr>
-  <tr>  
-    <div class="field form-group">
-      <td><%= f.label :Phone_number %>
-      <td><%= f.text_field :phone_no %>
-    </div>
-  </tr>
-  <tr> 
-    <div class="field form-group">
-      <td><%= f.label :email %>
-      <td><%= f.email_field :email, autofocus: true %>
-    </div>
-  </tr>
-  <tr>
-   <div class="actions">
-      <td></td>
-      <td><%= f.submit "Add admin" %>
-    </div>
-  </tr>
-</table>
 <% end %>
-</center>

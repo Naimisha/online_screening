@@ -1,3 +1,6 @@
+<%= link_to 'Edit', edit_question_path(@question), :method=> :post  %> |
+<%= link_to 'Back', questions_path %>
+
 <table class="table table-responsive table-bordered table-hover table-condensed">
   <tr>
     <th width="20%" >Question</th>
@@ -44,6 +47,3 @@
   </tr>
 
 </table>
-
-<%= link_to 'Edit', edit_question_path(@question), :method=> :post  %> |
-<%= link_to 'Back', questions_path %>

@@ -17,26 +17,29 @@
     <div class="col-sm-6">
       <div class="field">
           <%= f.label :question %>
-          <%= f.text_area :question, :class => "form-control" %><br>
-      </div>
+          <%= f.text_area :question, :class => "form-control" %>
+      </div><br>
 
       <div>
-        <input type="checkbox" name="image" ng-model="image"><b>&nbsp;&nbsp;Tick to add image (if any)</b><br><br>
-      </div>
+        <input type="checkbox" name="image" ng-model="image">
+        <b>&nbsp;&nbsp;
+          <% if @question[:image] == nil %>
+            Check to add image (if any)
+          <% else %>
+            Uncheck  to remove image
+          <% end %>
+        </b>
+        <span ng-if="image">
+          <%= f.file_field :image, :class => "form-control" %>
+        </span>
+      </div><br>
 
-      <div ng-if="image">
-        <% if @question[:image] != nil %>
-          <%= f.label :image, "Change Image" %>
-        <% else %>
-          <%= f.label :image, "Select Image" %>
-        <% end %> 
-        <%= f.file_field :image, :class => "form-control" %><br>
-      </div>
+      
 
       <div class="field">
           <%= f.label :qtype, "Question type" %>
-          <%= f.select :qtype, [['Single Correct Answer Type', 'mcq'], ['Multiple Correct Answer Type', 'multi'], ['Numerical Answer Type', 'numerical']], {}, :'ng-model' => "qtype", :class => "form-control" %><br>
-      </div>
+          <%= f.select :qtype, [['Single Correct Answer Type', 'mcq'], ['Multiple Correct Answer Type', 'multi'], ['Numerical Answer Type', 'numerical']], {}, :'ng-model' => "qtype", :class => "form-control" %>
+      </div><br>
 
       <div style="display:none">
         <%= f.label :options %>
@@ -50,8 +53,8 @@
 
       <div class="field">
           <%= f.label :weightage%>
-          <%= f.number_field :weightage, :class => "form-control" %><br>
-      </div>
+          <%= f.number_field :weightage, :class => "form-control" %>
+      </div><br>
 
       <div class="field">
           <%= f.submit :class => "btn btn-primary" %>
@@ -78,9 +81,9 @@
       </div>
       <div ng-if="qtype == 'numerical'" class="field">
           <label>Answer</label>
-          <input type="text" name="option1" placeholder="Answer" ng-model="optionVal[0]", class="form-control"><br>
+          <input type="text" name="option1" placeholder="Answer" ng-model="optionVal[0]", class="form-control">
           <%= f.hidden_field :nooptions, :value => 1 %>
-      </div>
+      </div><br>
     </div>
 </div>
 
