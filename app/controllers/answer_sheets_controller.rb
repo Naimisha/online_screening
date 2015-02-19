@@ -237,13 +237,10 @@ class AnswerSheetsController < ApplicationController
 
 	def setAnswersheet
 		if user_signed_in?
-			if can? :manage, :site
-				render "layouts/_adminError"
-			else
-				@users_question = AnswerSheet.find_by_user_id(current_user.id);
-			end
+			authorize! :appear, :exam, :message => "Not authorized to appear in exam"
+			@users_question = AnswerSheet.find_by_user_id(current_user.id);
 		else
-			render "layouts/_notSignedInError"
+			authorize! :appear, :exam, :message => "Please sign in first to access the page"
 		end
 	end
 end

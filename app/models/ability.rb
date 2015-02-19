@@ -6,6 +6,8 @@ class Ability
         user ||= User.new
         if user.role[:role_name] == "admin"
             can :manage, :site
+        else
+            can :appear, :exam
         end
     end
     # Define abilities for the passed in user here. For example:

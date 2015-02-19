@@ -74,12 +74,8 @@ class AdminsController < ApplicationController
 		def authentication
 			if user_signed_in?
 				authorize! :manage, :site, :message => "Insufficient privileges to access the page"
-				#unless can? :manage, :site
-				#	render "layouts/_notAnAdminError"
-				#end
 			else
 				authorize! :manage, :site, :message => "Please sign in first to access the page"
-				render "layouts/_notSignedInError"
 			end
 		end	  
 	end

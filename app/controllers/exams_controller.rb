@@ -97,11 +97,9 @@ class ExamsController < ApplicationController
   private
     def authentication
       if user_signed_in?
-        unless can? :manage, :site
-          render "layouts/_notAnAdminError"      
-        end  
+        authorize! :manage, :site, :message => "Insufficient privileges to access the page"
       else
-        render "layouts/_notSignedInError"
+        authorize! :manage, :site, :message => "Please sign in first to access the page"
       end        
     end
 

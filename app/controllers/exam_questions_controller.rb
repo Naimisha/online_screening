@@ -98,14 +98,11 @@ class ExamQuestionsController < ApplicationController
  	private
  	def set_exam
  		if user_signed_in?
-	 		unless can? :manage, :site
-				render "layouts/_notAnAdminError"
-			else
-		 		#@exam=Exam.find(params[:id])
-		 		@e_id=params[:id]
-		 	end
+	 		authorize! :manage, :site, :message => "Insufficient privileges to access the page"
+		 	#@exam=Exam.find(params[:id])
+		 	@e_id=params[:id]
 		else
-			render "layouts/_notSignedInError"
+			authorize! :manage, :site, :message => "Please sign in first to access the page"
 		end
 	end
 end
