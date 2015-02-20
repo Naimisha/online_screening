@@ -1,3 +1,4 @@
+
 var App= angular.module('Question', ["ui.bootstrap"]);
 
 App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
@@ -14,7 +15,7 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 
 	     	$scope.questions = angular.fromJson(data.answer);
 	     	$scope.displayQuestion();
-	       	
+	       	$scope.id = data.id;
 	       	var result= data.result;
 	        for(i=0;i<result.length;i++){
 	       	     if(result[i]["answer"]==""){
@@ -296,8 +297,9 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 
 App.controller('ReviewCtrl',['$scope','$http',function($scope,$http){
 		$scope.reviewTest=function(){
+			
+			$http.post('http://'+$scope.ip_addr+':3000/answer_sheets/'+$scope.id +'/display_test.json',{test:'test'}).success(function(data){
 
-			$http.post('http://'+$scope.ip_addr+':3000/answer_sheets/display_test.json',{test:'test'}).success(function(data){
 				$scope.review_paper=angular.fromJson(data);
 				$scope.answers=new Array($scope.review_paper.length);
 				 
@@ -319,8 +321,10 @@ App.controller('ReviewCtrl',['$scope','$http',function($scope,$http){
 
 		}).error(function(){document.write("error display_test");});
 		};
-		$scope.initParam=function(ip){
+		$scope.initParam=function(ip,id){
 			$scope.ip_addr=ip;
+			$scope.id=id;
+
 		};
 		
 

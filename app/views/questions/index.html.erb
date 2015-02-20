@@ -13,7 +13,11 @@
 				<%= content_tag "p", q.question %>
 			</td>
 			<td>
-				<%= (q.correct_response_count.to_f/q.question_appeared_count).round(2) %>
+				<% if q.question_appeared_count != 0 %>
+					<%= (q.correct_response_count.to_f/q.question_appeared_count).round(2)*100 	%>
+				<% else %>
+					-
+				<% end %>
 			</td>
 			<td>
 				<%= q.question_appeared_count %>

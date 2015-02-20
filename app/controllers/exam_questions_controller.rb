@@ -6,7 +6,7 @@ class ExamQuestionsController < ApplicationController
    	 	$page_title = "Set Question"
     	@exam=Exam.find_by_id(@e_id)
 	  	@e_id=params[:id]
-		@questions=Question.all.order "weightage"
+		@questions=Question.order("correct_response_count/question_appeared_count DESC ,question_appeared_count DESC").all
 		@max_id=Question.maximum(:id)
 
 		@selected_questions = ExamQuestion.where(:exam_id=> @e_id.to_i).select("question_id")

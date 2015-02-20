@@ -3,7 +3,8 @@
 <% else %>
 
 
-<form name="test" action="/answer_sheets/display_test" method="post" ng-init="initParam('<%= @countdown %>','<%= Socket.ip_address_list[1].ip_address%>'); " ng-controller="QuestionCtrl as question_ctrl">
+<form name="test" action="{{'/answer_sheets/'+id+'/display_test'}}" method="post" ng-init="initParam('<%= @countdown %>','<%= Socket.ip_address_list[1].ip_address%>'); " ng-controller="QuestionCtrl as question_ctrl">
+		<input type="hidden" value="{{id}}" name="id">
 		<div class="row">
 			<div class="col-sm-10">
 				<small>This question carries {{question_weightage}} marks.</small>

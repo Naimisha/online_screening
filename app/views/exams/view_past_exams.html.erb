@@ -39,7 +39,7 @@
 			
 			<td>	
 				<%= link_to 'Edit ', edit_exam_path(e), :method=> :post, :class => 'btn btn-default btn-xs' %> 
-				<%= link_to 'View Questions ', "exam_questions/"+e.id.to_s+"/view_exam_questions", :method => :post, :class => 'btn btn-default btn-xs' %>
+				<%= link_to 'View Questions ', "/exam_questions/"+e.id.to_s+"/view_exam_questions", :method => :post, :class => 'btn btn-default btn-xs' %>
 				<%= link_to 'View Result', "/exams/"+e.id.to_s+"/view_result", :method => :post, :class => 'btn btn-default btn-xs' %>
 				<%= link_to 'Delete ', exam_path(e), :method => :delete, :class => 'btn btn-warning btn-xs' %>
 			</td>							

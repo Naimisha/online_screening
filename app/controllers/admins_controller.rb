@@ -20,49 +20,66 @@ class AdminsController < ApplicationController
 		  	enc_password = Digest::MD5.hexdigest(password)[0..9]
 		  	@user.password = enc_password
 		  	u = @user.save
-		  	puts @user.id
-		  	p = Privilege.new
-	      	p.user_id = @user.id
-	      	p.role_id = Role.find_by_role_name("admin").id;
-	      	p.save
-	      	SendPassword.send_mail(params[:admins][:email],params[:admins][:first_name]+ params[:admins][:last_name],enc_password).deliver
-	    	flash[:admin_added] = "Successfully admin added"
+		  	
+		  	if u
+		  		p = Privilege.new
+	      		p.user_id = @user.id
+	      		p.role_id = Role.find_by_role_name("admin").id;
+	      		if p.save
+	      	   		SendPassword.send_mail(params[:admins][:email],params[:admins][:first_name]+ params[:admins][:last_name],enc_password).deliver
+	    			flash[:admin_added] = "Successfully admin added"
+	    		end
+	    	else
+	    		puts @user.errors.messages
+	    	end
 	    end
 	end 
+
     $path=""
+
 	  def add_users
 	  	$page_title = "User Details"
 	  	require 'spreadsheet'
 	  	require 'digest/md5'
+	  	if params[:admins].nil?
+	  		flash[:error]="No file is selected"
+	  		redirect_to  :action => "index"
+	  	else
+		  	if File.extname(params[:admins][:userdata].original_filename)==".xls"
+			  	name = Time.now.to_s  #params[:question][:image].original_filename
+		      	directory = "public/data"
+		      	$path = File.join(directory, name)
+		      	File.open($path, "wb"){|f| f.write(params[:admins][:userdata].read)}
+			  	
+			  	user_details=Spreadsheet.open($path);
+			  	sheet1=user_details.worksheet('Sheet1');
+			  	@users = []
 
-	  	name = Time.now.to_s  #params[:question][:image].original_filename
-      	directory = "public/data"
-      	$path = File.join(directory, name)
-      	File.open($path, "wb"){|f| f.write(params[:admins][:userdata].read)}
-	  	
-	  	user_details=Spreadsheet.open($path);
-	  	sheet1=user_details.worksheet('Sheet1');
-	  	@users = []
+			  	sheet1[0,8]="Generated Password"
+			  	sheet1.each 1 do |row|
 
-	  	sheet1[0,8]="Generated Password"
-	  	sheet1.each 1 do |row|
-
-	  		password = row[7].to_s + Time.now.to_s
-	  		enc_password = Digest::MD5.hexdigest(password)[0..9]
-	  		user = [row[1]+" "+row[2], row[6], enc_password]
-	  		@users.push(user)
-	  	    u=User.create(:student_id => row[0],:first_name => row[1],:last_name => row[2],:phone_no => row[3],:degree => row[4],:passing_year => row[5],:email => row[6],:date_of_birth => row[7],:password => enc_password)
-
-	  	    p = Privilege.new
-      		p.user_id = u.id
-      		p.role_id = Role.find_by_role_name("user").id;
-      		p.save
-      		SendPassword.send_mail(row[6],row[6],enc_password).deliver  
-      		row[8]=enc_password
-   		
-	  	end
-	    user_details.write $path+".xls"
-	    respond_with(@users)
+			  		password = row[7].to_s + Time.now.to_s
+			  		enc_password = Digest::MD5.hexdigest(password)[0..9]
+			  		user = [row[1]+" "+row[2], row[6], enc_password]
+			  		@users.push(user)
+			  	    u=User.create(:student_id => row[0],:first_name => row[1],:last_name => row[2],:phone_no => row[3],:degree => row[4],:passing_year => row[5],:email => row[6],:date_of_birth => row[7],:password => enc_password)
+		            
+		            if u.valid?
+				  	    p = Privilege.new
+			      		p.user_id = u.id
+			      		p.role_id = Role.find_by_role_name("user").id;
+			      		p.save
+			      		SendPassword.send_mail(row[6],row[6],enc_password).deliver  
+			      		row[8]=enc_password  		
+			      	end
+			    end
+		    		user_details.write $path+".xls"
+		    		respond_with(@users)
+		    else
+		    	flash[:error]="Sorry! Uploaded file is not in .xls format."
+		    	redirect_to  :action => "index"		    	
+		    end
+		end
 	  end
 	  def download
 	  	send_file $path+".xls"

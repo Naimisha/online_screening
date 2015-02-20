@@ -1,7 +1,16 @@
 <center>
+
 <div class="row">
 	<div class="col-sm-4"></div>
 	<div class="col-sm-4">
+	<% if flash[:error] %>
+		<div class="alert alert-warning">
+      		<a href="#" class="close" data-dismiss="alert">&times;</a>
+	  		<p class="text text-danger">
+						<%= flash[:error] %>
+			</p>
+		</div>
+	<% end %>
 	<%= form_for( :admins, url:  { action: "add_users" }, :multipart => true) do |f|  %>
 		<table class="table table-bordered">
 			<tr style="background-color: green">
