@@ -1,14 +1,22 @@
 <table class="table table-striped">
 	<thead>
 		<tr class="">
-			<th width="85%">Question</th>
-			<th></th>
+			<th width="60%">Question</th>
+			<th width="10%">Accuracy</th>
+			<th width="10%">Usage Count</th>
+			<th width="15%"></th>
 		</tr>
 	</thead>
 	<% @questions.each do |q| %>
 		<tr class="">					
 			<td>
 				<%= content_tag "p", q.question %>
+			</td>
+			<td>
+				<%= (q.correct_response_count.to_f/q.question_appeared_count).round(2) %>
+			</td>
+			<td>
+				<%= q.question_appeared_count %>
 			</td>
 			<td>	
 				<%= link_to 'Edit ', edit_question_path(q), :method=> :post, :class => 'btn btn-default btn-xs' %> 
