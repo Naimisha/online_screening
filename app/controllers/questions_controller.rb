@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   require 'json'
   def index
     $page_title = "Question Pool"
-    @questions = Question.all
+    @questions=Question.order("correct_response_count/question_appeared_count DESC ,question_appeared_count DESC").all
     respond_with(@questions)
   end
 

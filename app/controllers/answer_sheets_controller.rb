@@ -1,5 +1,5 @@
 class AnswerSheetsController < ApplicationController
-	before_action :setAnswersheet
+	before_action :setAnswersheet, :except => :display_test
   	
   	respond_to :html
 
@@ -38,12 +38,7 @@ class AnswerSheetsController < ApplicationController
 			@result_params = JSON.parse(params[:answer])
 			
 		@res = @users_question.result
-		#puts "result : #{@res} and class #{@res.class}"
-
-		#@result_params=@result_params
-
-		#puts "parameters : #{@result_params} class : #{@result_params.class}"
-
+		
 		@index=params[:id]
 		@index = @index.to_i
 
@@ -61,18 +56,16 @@ class AnswerSheetsController < ApplicationController
 	def get_answer
 
 		@result = @users_question.result
-		puts  @result
+		
 		@index=params[:id]
 		@index = @index.to_i
 		@ans = @result[@index]["answer"]
-		puts @index
-		puts @ans
+		
 		respond_to do |format|
 			format.json {render json: @ans}
 		end
 
 	end
-
 
 	def show_result
 		@score=0;
@@ -100,10 +93,18 @@ class AnswerSheetsController < ApplicationController
 	end
 
 	def display_test
-		
-		#@test= JSON.parse(@users_question.answer)
+		@users_question="";
+		if can? :manage,:site
+			puts params[:id]
+			@users_question = AnswerSheet.find_by_user_id(params[:id]);
+			puts @users_question.nil?
+		else
+			@users_question = AnswerSheet.find_by_user_id(current_user.id);
+		end
+
+
 		@answers = @users_question.result
-		puts @answers
+		
 		@review="["
 		for i in 0..@answers.length-1
 			@ques_id=@answers[i]["question_id"]
@@ -128,13 +129,11 @@ class AnswerSheetsController < ApplicationController
 		@review=@review+"]"
 		puts @review
 		@review=JSON.parse(@review)
-  
+  		@id=@users_question.id
 		respond_to do |format|
-			format.html
+			format.html {respond_with (@id)}
 			format.json {render json: @review}			
 		end
-
-		#respond_with(@test)
 	end
 
 	def show

@@ -1,3 +1,6 @@
+<%= flash[:errors] %>
+
+
 <div id="userdetails" >
 <table class = "table table-stripped table-condensed">
 	<caption> <h1> <center> User details </center> </h1> </caption>
@@ -18,6 +21,11 @@
 	</table>
 </div>
 <div id = "links" ng-controller ="printCtrl"> 	
+<<<<<<< HEAD
 	<a class= "btn btn-success" href="/admins/download">Download</a>
 	<input type="button" value="Print" class= "btn btn-success" ng-click = "printUserDetails()" >
+=======
+	<a href="/admins/download" class="btn btn-success">Download</a>
+	<input type="button" value="Print" ng-click = "printUserDetails()" >
+>>>>>>> 82746e4095c0877c3f884c7b6a195b9c8e5569d5
 </div>

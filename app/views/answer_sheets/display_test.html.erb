@@ -1,4 +1,4 @@
-<div  id="id1" ng-controller="ReviewCtrl" ng-init="initParam('<%= Socket.ip_address_list[1].ip_address %>'); reviewTest();">
+<div  id="id1" ng-controller="ReviewCtrl" ng-init="initParam('<%= Socket.ip_address_list[1].ip_address %>','<%=@id.to_i%>');reviewTest();">
 <table ng-repeat="review in review_paper track by $index">
 			<tr>
 				<td>
@@ -13,6 +13,7 @@
 		  	</tr>
 </table>
 <br>
+<% if !can? :manage, :site %>
 <table> 
 		<tr>
 			<td>
@@ -25,8 +26,16 @@
 			</td>
 		</tr>
 </table>
+<% else %>
+	<button class="btn btn-success" onclick="goBack()">Back</button>
+<% end %> 
 </div>	
-
+<script type="text/javascript">
+	 goBack = function(){
+		
+		window.history.go(-1);
+	}
+</script>
 
 	
 
