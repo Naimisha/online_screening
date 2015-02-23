@@ -12,7 +12,7 @@
       <div class="field">
         <%= f.label :First_Name %>
         <%= f.text_field :first_name, :class => "form-control" %>
-        <p class="text text-danger"><%if !@user.errors.messages.nil?  && !@user.errors.messages[:first_name].nil?%>
+        <p class="text text-danger"><%if !@user.nil? && !@user.errors.messages.nil?  && !@user.errors.messages[:first_name].nil?%>
            First name <%= @user.errors.messages[:first_name][0] %>
         <% end %></p>
       </div><br>
@@ -20,7 +20,7 @@
       <div class="field">
         <%= f.label :Last_Name %>
         <%= f.text_field :last_name, :class => "form-control" %>
-         <p class="text text-danger"><%if !@user.errors.messages.nil?  && !@user.errors.messages[:last_name].nil?%>
+         <p class="text text-danger"><%if !@user.nil? && !@user.errors.messages.nil?  && !@user.errors.messages[:last_name].nil?%>
            Last name <%= @user.errors.messages[:last_name][0] %>
         <% end %></p>
       </div><br>
@@ -29,7 +29,7 @@
       <div class="field">
         <%= f.label :Date_of_birth %>
         <%= f.date_field :date_of_birth, :class => "form-control" %>
-         <p class="text text-danger"><%if !@user.errors.messages.nil?  && !@user.errors.messages[:date_of_birth].nil?%>
+         <p class="text text-danger"><%if !@user.nil? && !@user.errors.messages.nil?  && !@user.errors.messages[:date_of_birth].nil?%>
            Date of birth <%= @user.errors.messages[:date_of_birth][0] %>
         <% end %></p>
       </div><br>
@@ -37,7 +37,7 @@
       <div class="field">
         <%= f.label :Phone_number %>
         <%= f.text_field :phone_no, :class => "form-control" %>
-         <p class="text text-danger"><%if !@user.errors.messages.nil?  && !@user.errors.messages[:phone_no].nil?%>
+         <p class="text text-danger"><%if !@user.nil? && !@user.errors.messages.nil?  && !@user.errors.messages[:phone_no].nil?%>
            Phone number  <%= @user.errors.messages[:phone_no][0] %>
         <% end %></p>
       </div><br>
@@ -45,7 +45,7 @@
       <div class="field">
         <%= f.label :email %>
         <%= f.email_field :email, autofocus: true, :class => "form-control" %>
-         <p class="text text-danger"><%if !@user.errors.messages.nil?  && !@user.errors.messages[:email].nil?%>
+         <p class="text text-danger"><%if !@user.nil? && !@user.errors.messages.nil?  && !@user.errors.messages[:email].nil?%>
            Email <%= @user.errors.messages[:email][0] %>
         <% end %></p>
       </div><br>

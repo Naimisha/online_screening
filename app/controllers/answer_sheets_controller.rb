@@ -89,7 +89,6 @@ class AnswerSheetsController < ApplicationController
 
 	    @users_question.score=@score
 	    @users_question.save	
-		respond_with(@score,@total)
 	end
 
 	def display_test
