@@ -28,8 +28,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def view_profile
     @user=User.find(params[:id])
-    @id=AnswerSheet.find_by_user_id(@user.id).select("id");
-    respond_with(@user,@id)
+   
+    respond_with(@user)
   end
 
 

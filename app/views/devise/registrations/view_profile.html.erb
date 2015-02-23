@@ -33,12 +33,11 @@
 				<td> <%= "  "+@user.passing_year.to_s%></td>
 			</tr>
 			<tr>
-				<td colspan="2">
-					<center><button class="btn btn-success" onclick="goBack()">Back</button></center>
-				</td>
 				<td>
-					<a href="" class="btn">View Answersheet</a>
+					<a href="/answer_sheets/<%= @user.id %>/display_test" data-method="get" class="btn btn-success">View Answersheet</a>
 				</td>
+				<td colspan="2">
+					<button class="btn btn-success" onclick="goBack()">Back</button>				</td>				
 			</tr>
 		</table>
 	</div>

@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-var App= angular.module('Question',[]);
-=======
 
 var App= angular.module('Question', ["ui.bootstrap"]);
->>>>>>> 82746e4095c0877c3f884c7b6a195b9c8e5569d5
 
 App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
 
@@ -15,6 +11,8 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 	$scope.ip_addr = "";
 	$scope.loadTest = function(){
 		$http.get('http://'+$scope.ip_addr+':3000/answer_sheets.json').success(function(data){
+			
+
 	     	$scope.questions = angular.fromJson(data.answer);
 	     	$scope.displayQuestion();
 	       	$scope.id = data.id;
@@ -38,12 +36,17 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 	       				$scope.answerded[i]=false
 	       		}
 	       	}
+
+	    //	document.write(typeof $scope.answerded[0]);     	
+
 	     }).error(function(){
 			document.write("error in loading exam");
 		});
  	};
 
-	$scope.question_no =0;
+
+    $scope.question_no =0;
+	
 	$scope.quest= [];
 	$scope.options = [];
 	$scope.question_type="";
@@ -57,11 +60,18 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 			$scope.start_timer();
 			$scope.loadTest();
 		}
-		else
+		else{
 			window.location.replace("http://"+$scope.ip_addr+":3000/answer_sheets/result.html");
-	};
+			//$http.get("http://"+$scope.ip_addr+":3000/answer_sheets/result.html").success(function(){
+			//	window.location.replace("http://"+$scope.ip_addr+":3000/answer_sheets/result.html");
+			//});
+		}
+
+	}
 
 	$scope.start_timer = function(){
+		//var c = parseInt(countdown);
+		
 		if($scope.countdown-- >0)
 		{
 			var m = parseInt($scope.countdown/60);
@@ -105,11 +115,16 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
             else
             	$scope.answer=null;
 			$scope.getAnswer();
-			}).error(function(){
+
+
+
+		}).error(function(){
 		   document.write("error in displayQuestion");
 	});
+	
 	};
 	
+
 	$scope.getOptions = function(){
 		return angular.fromJson($scope.current_question.options);			
 	};
@@ -121,6 +136,8 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 	$scope.isLastQuestion = function(){
 		return $scope.question_no==$scope.questions.length-1;
 	};
+
+
 
 	$scope.submitAnswer=function(){
 		var result;
@@ -138,6 +155,7 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 			}
 		}		
 		else if($scope.question_type=="numerical") {
+			//document.write($scope.answer);
 			var value=document.getElementById('ans').value;
 			if(value=="")
 				$scope.answerded[$scope.question_no]=false;
@@ -160,10 +178,14 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 			if($scope.given_answer[i]=="#")
 				hash_count++;
 
-			if(hash_count==$scope.given_answer.length)
+			if(hash_count==$scope.given_answer.length){
 				$scope.answerded[$scope.question_no]=false;
+				//document.write($scope.answerded[$scope.question_no])
+			}
 			else
 				$scope.answerded[$scope.question_no]=true;
+
+
 
 			result="{\"question_id\":\""+$scope.current_question.id+"\", \"answer\":\""+str+"\"}";				
 		}
@@ -174,7 +196,12 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 		}
 
 		$http.post('http://'+$scope.ip_addr+':3000/answer_sheets/'+$scope.question_no+'/update_result.json', {answer:result}).success(function(data){})
-					
+		
+		if(!$scope.isLastQuestion())
+		{
+			//$scope.question_no+=1;
+			//$scope.displayQuestion();
+		}			
 	};
 
 	$scope.decrementQuestionNo=function(){
@@ -192,6 +219,7 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
     
 	$http.get('http://'+$scope.ip_addr+':3000/answer_sheets/'+$scope.question_no+'/get_answer.json').success(function(data){
 		
+		//document.write(data[0]["ans"]);
 		if(data != ""){
 			if($scope.question_type != "multi")
 			{
@@ -224,6 +252,8 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 					if(hash_count==data.length)
 						$scope.answerded[$scope.question_no]=false;
 				}
+
+
 			}
 		}
 		else{
@@ -235,17 +265,22 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 	});
 	};
 	
+
 	$scope.setAnswer=function(value)
 	{
+		
 		$scope.answer=value;
+
 	};
 
 	$scope.isAnswered=function($index)
 	{
+		//document.write($scope.answerded[$index]);
 		return $scope.answerded[$index];
-	};
+	}
 
 	$scope.clearResponse=function(){
+		//document.getElementById('ans').checked = false;
 		$scope.answer="";
 		if($scope.question_type == "multi")
 		{
@@ -257,9 +292,12 @@ App.controller('QuestionCtrl', ['$scope', '$http', '$timeout', function($scope, 
 
 }] );
 
+
+
+
 App.controller('ReviewCtrl',['$scope','$http',function($scope,$http){
 		$scope.reviewTest=function(){
-			
+			//document.write($scope.id)
 			$http.post('http://'+$scope.ip_addr+':3000/answer_sheets/'+$scope.id +'/display_test.json',{test:'test'}).success(function(data){
 
 				$scope.review_paper=angular.fromJson(data);
@@ -280,14 +318,15 @@ App.controller('ReviewCtrl',['$scope','$http',function($scope,$http){
 			
 				document.write($scope.answers[0]);
 
+
 		}).error(function(){document.write("error display_test");});
 		};
 		$scope.initParam=function(ip,id){
 			$scope.ip_addr=ip;
 			$scope.id=id;
-
 		};
 		
+
 }]);
 
 App.controller('OptionCtrl', ['$scope', function($scope) {
@@ -384,7 +423,16 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 				$scope.selectedq[selected_question_ids[i]-1]=selected_question_ids[i].toString();
 
 			}
+			for(i=0;i<selected_question_ids.length; i++){
+				//document.write($scope.selectedq[i]);
+				//document.write("<br/>");
+
+			}
+
+
 		}
+
+
 	};
 
 	$scope.validate=function($event, e){
@@ -414,8 +462,25 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 				}
 			}
 		}
-		return flag;	
-	};
+		return flag;
+
+
+		
+	};/*
+	selectedq_JsonObj='[';
+	$scope.createJson=function($event){
+			for(var i=0; i<$scope.selectedq.length; i++){
+				if($scope.selectedq[i] != "false"){
+					selectedq_JsonObj+='{"'+(i+1)+'":"' + $scope.selectedq[i] + '"},';	
+				}
+			}
+			selectedq_JsonObj = selectedq_JsonObj.substr(0, selectedq_JsonObj.length-1);
+			selectedq_JsonObj += ']';
+			document.write(selectedq_JsonObj);
+			$event.preventDefault();
+
+		}; */
+
 
 	selectedq_JsonObj='[';
 	weightages_json='[';
@@ -437,7 +502,17 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 		}
 		selectedq_JsonObj = selectedq_JsonObj.substr(0, selectedq_JsonObj.length-1);
 		selectedq_JsonObj += ']';
+		//document.write(selectedq_JsonObj);
+		//document.write("<br/>");
+		//document.write(weightages_json);
+		//document.write("<br/>");
+		//document.write(no_questions_each_weightage_json);
+		//document.write("<br/>");
+		//document.write("hello");
+		//document.write(e);
+
 		parameters='[{"no_weightages": '+ $scope.no_weightages +'}, {"weightages": ' +weightages_json+ '}, {"no_questions_each_weightage": ' +no_questions_each_weightage_json+ '}, {"selectedque": '+selectedq_JsonObj+ '}, {"total_marks": ' +$scope.total_marks+ '}]';
+		//document.write(parameters);
 		$http.post('http://'+$scope.ip_addr+':3000/exam_questions/'+e+'/save_exam_questions.json', {params: parameters}).success(function(data){
 				if(data=="true"){
 					window.location.replace("/exam_questions/"+e+"/view_exam_questions.html");
@@ -449,7 +524,86 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 			});
 		
 	};
+
+
 }]);
+
+
+
+App.controller('AdminCntrl', ['$scope', '$modal', '$http' , '$log', function($scope ,$modal, $http , $log) {
+	$scope.tab = 1;
+	$scope.ip_addr=""
+	$scope.user_data = [];
+
+    //document.write($scope.user_data);
+    $scope.initIP=function(ip)
+    {
+    	$scope.ip_addr=ip;
+    }
+
+	$scope.selectTab = function(setTab){
+		//document.write("hello pratik1");
+		$scope.tab = setTab;
+	};
+
+	$scope.isSelected = function(checkTab){
+		//document.write("hello pratik");
+		return $scope.tab === checkTab;
+	};
+
+	$scope.getuserData = function(){
+		$http.get('http://'+$scope.ip_addr+':3000/admins.json').success(function(data){
+
+	      $scope.user_data = data;
+	     }).error(function(){
+			document.write("error in admin");
+		});
+	};
+
+	// $scope.addAdmin = function(user_id){
+	//  $scope.id = user_id;
+	//  $http.post('http://localhost:3000/admins/'+ $scope.id + '/addAdmin.json' , {uid_cnt: user_id}).success(function(data){}).error(function(){ document.write("error in add admin")});
+	// };
+
+  $scope.open = function (usr) {
+  	
+    var modalInstance = $modal.open({
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      size: 'sm',
+      resolve: {
+        usr_fun: function () {
+          return usr;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (user_id) {
+     $scope.id = user_id;
+	 $http.post('http://'+$scope.ip_addr+':3000/admins/'+ $scope.id + '/addAdmin.json' , {uid_cnt: user_id}).success(function(data){ location.reload();}).error(function(){ document.write("error in add admin")});
+    });
+  };
+
+} ]);
+
+
+
+
+
+App.controller('ModalInstanceCtrl', function ($scope, $modalInstance, usr_fun) {
+
+  $scope.to_add_admin = usr_fun;
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.to_add_admin.id);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+
+
+});
 
 App.controller('printCtrl',['$scope', function($scope){
 
@@ -461,6 +615,13 @@ App.controller('printCtrl',['$scope', function($scope){
 		window.print();
 		select_exam.style.display = "block";
 		shortlist_criteria.style.display = "block";
+		/*var toPrint = document.getElementById('print');
+		var popupWin = window.open('');
+		popupWin.document.open();
+		popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="/home/harshit/RailsWorkspace/online_screening_final/app/assets/stylesheets"></head><body onLoad=""> '+ toPrint.innerHTML + '</body></html>');
+		alert('<html><head><link rel="stylesheet" type="text/css" href="/home/harshit/RailsWorkspace/online_screening_final/app/assets/stylesheets"></head><body onLoad=""> '+ toPrint.innerHTML + '</body></html>');
+		popupWin.document.close();*/
+
 	};
 	$scope.printUserDetails =function(){
 		var links = document.getElementById('links');

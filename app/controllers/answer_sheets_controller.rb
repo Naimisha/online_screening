@@ -129,7 +129,7 @@ class AnswerSheetsController < ApplicationController
 		@review=@review+"]"
 		puts @review
 		@review=JSON.parse(@review)
-  		@id=@users_question.id
+  		@id=@users_question.user_id
 		respond_to do |format|
 			format.html {respond_with (@id)}
 			format.json {render json: @review}			
