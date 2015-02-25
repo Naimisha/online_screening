@@ -5,11 +5,8 @@
     </div>
   <% end %>
 
-  <div ng-controller = "QTypeCtrl">
-  	<input type="button" value="hell testing" ng-click="postJson">
-  </div>
-
-<form class="form-inline" ng-controller="QTypeCtrl" ng-init ="initParam('<%= Socket.ip_address_list[1].ip_address %>'); initWeightages('<%= @exam[:no_weightages] %>','<%= @exam[:weightages] %>','<%= @exam[:no_questions_each_weightage] %>', <%= @selected_question_ids %>,'<%= @max_id %>');">
+  
+<div class="form-inline" ng-controller="QTypeCtrl" ng-init ="initParam('<%= Socket.ip_address_list[1].ip_address %>'); initWeightages('<%= @exam[:no_weightages] %>','<%= @exam[:weightages] %>','<%= @exam[:no_questions_each_weightage] %>', <%= @selected_question_ids %>,'<%= @max_id %>', '<%= @temp_selection %>');">
 
 		<div class="row">
 			<div class="col-sm-4"></div>
@@ -38,6 +35,8 @@
 			    </div>
 		    </div>
 		</div><br>
+
+
 		
 		<div class="row">
 			<div class="col-sm-4"></div>
@@ -48,14 +47,36 @@
 		</div>
 
 
-
 	<table class="table table-striped">
 		<thead>
 			<tr class="">
 				<th></th>
-				<th width="70%">Question</th>
+				<th width="65%">Question</th>
 				<th>Weightage</th>
-				<th></th>
+				<th>
+				<form action="/exams/<%= @e_id %>/set_questions" method="post">
+				<input type="hidden" name="params" value="{{createJson(<%= @e_id %>)}}"/>
+				<button type="submit" name="sortCriteria" value="accuracyDesc" class="btn btn-default">
+      					<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+   					</button> </form>
+   				<form action="/exams/<%= @e_id %>/set_questions" method="post">
+   					<input type="hidden" name="params" value="{{createJson(<%= @e_id %>)}}"/>
+   					<button type="submit" name="sortCriteria" value="accuracyAsc" class="btn btn-default" >
+      					<span class="glyphicon glyphicon-sort-by-attributes"></span>
+   					</button>Accuracy</form></th>
+   				
+   				<th><form action="/exams/<%= @e_id %>/set_questions" method="post">
+   					<input type="hidden" name="params" value="{{createJson(<%= @e_id %>)}}"/>
+   					<button type="submit" name="sortCriteria" value="usageCountDesc" class="btn btn-default">
+      					<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+   					</button></form>
+   				<form action="/exams/<%= @e_id %>/set_questions" method="post">
+   					<input type="hidden" name="params" value="{{createJson(<%= @e_id %>)}}"/>
+   					<button type="submit" name="sortCriteria" value="usageCountAsc" class="btn btn-default">
+      					<span class="glyphicon glyphicon-sort-by-attributes"></span>
+   					</button>Usage Count</form></th>
+			
+			<th></th>
 			</tr>
 		</thead>
 
@@ -70,6 +91,17 @@
 				<td>
 					<%= content_tag "p", q.weightage %>
 				</td>
+				<td>
+				<% if q.question_appeared_count != 0 %>
+					<%= (q.correct_response_count.to_f/q.question_appeared_count).round(2)*100 	%>
+				<% else %>
+					-
+				<% end %>
+			</td>
+			<td>
+				<%= q.question_appeared_count %>
+			</td>
+
 				<td>	
 					<%= link_to 'Edit ', edit_question_path(q), :method=> :post, :class => 'btn btn-default btn-xs' %> 
 					<%= link_to 'Show ', question_path(q), :class => 'btn btn-default btn-xs' %>
@@ -80,6 +112,7 @@
 		<% end %>
 	</table>
 	<center><button ng-click="validate($event, <%= @e_id %> )" class="btn btn-success">Submit</button></center>
-</form>
+	<center><button ng-click="restoreValues(<%= @e_id %>)" class="btn btn-success">Reset</button></center>
 
+</div>
 

@@ -392,6 +392,7 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 	$scope.weightages=[];
 	$scope.no_questions_each_weightage=[];
 	$scope.ip_addr = "";
+	$scope.temp_selection="";
 
 	$scope.initParam = function(ip){
 		$scope.ip_addr = ip;
@@ -407,32 +408,50 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 		return $scope.total_marks;	
 		};
 
-	$scope.initWeightages= function(no_weightages, weightages, no_questions_each_weightage, selected_question_ids, max_id){
+	$scope.initWeightages= function(no_weightages, weightages, no_questions_each_weightage, selected_question_ids, max_id, temp_selection){
 		$scope.selectedq = new Array(parseInt(max_id));
-		if(no_weightages != null && weightages != '' && no_questions_each_weightage != '' && selected_question_ids.length>0){
-			$scope.no_weightages=parseInt(no_weightages);
-			weightages_JsonObj=angular.fromJson(weightages);
-			no_questions_each_weightage_JsonObj=angular.fromJson(no_questions_each_weightage);
 
-			for(i=0;i<no_weightages;i++){
-				$scope.weightages[i]=parseInt(weightages_JsonObj[i]["weightage"]);
-				$scope.no_questions_each_weightage[i]=parseInt(no_questions_each_weightage_JsonObj[i]["no_questions"]);
+			if (temp_selection == ''){
+
+				
+				if(no_weightages != null && weightages != '' && no_questions_each_weightage != '' && selected_question_ids.length>0){
+					$scope.no_weightages=parseInt(no_weightages);
+					weightages_JsonObj=angular.fromJson(weightages);
+					no_questions_each_weightage_JsonObj=angular.fromJson(no_questions_each_weightage);
+
+					for(i=0;i<no_weightages;i++){
+						$scope.weightages[i]=parseInt(weightages_JsonObj[i]["weightage"]);
+						$scope.no_questions_each_weightage[i]=parseInt(no_questions_each_weightage_JsonObj[i]["no_questions"]);
+					}
+
+					for(i=0;i<selected_question_ids.length; i++){
+						$scope.selectedq[selected_question_ids[i]-1]=selected_question_ids[i].toString();
+
+					}	
+
+
+				}
 			}
+			else{
+				
+			
+				temp_selection=angular.fromJson(temp_selection);
+				
+				$scope.no_weightages=temp_selection[0]["no_weightages"];
+				weightages_JsonObj=temp_selection[1]["weightages"];		
+				no_questions_each_weightage_JsonObj=temp_selection[2]["no_questions_each_weightage"];
+				selected_questions=temp_selection[3]["selectedque"];
+		
+				for(i=0;i<$scope.no_weightages;i++){
+						$scope.weightages[i]=parseInt(weightages_JsonObj[i]["weightage"]);
+						$scope.no_questions_each_weightage[i]=parseInt(no_questions_each_weightage_JsonObj[i]["no_questions"]);
+					}
+				for(i=0;i<selected_questions.length; i++){
+						
+					$scope.selectedq[selected_questions[i]["selectedq"]-1]=selected_questions[i]["selectedq"].toString();				
 
-			for(i=0;i<selected_question_ids.length; i++){
-				$scope.selectedq[selected_question_ids[i]-1]=selected_question_ids[i].toString();
-
+				}	
 			}
-			for(i=0;i<selected_question_ids.length; i++){
-				//document.write($scope.selectedq[i]);
-				//document.write("<br/>");
-
-			}
-
-
-		}
-
-
 	};
 
 	$scope.validate=function($event, e){
@@ -440,7 +459,7 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 		var flag=true;
 		flag=$scope.validateExamQuestion($event, e, flag);
 		if(flag){
-			$scope.createJson($event, e);
+			$scope.submitRequest(e);
 		}
 	};
 
@@ -462,57 +481,68 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 				}
 			}
 		}
-		return flag;
-
-
+		return flag;		
+	};
+	
+	$scope.createJson=function(e){
 		
-	};/*
-	selectedq_JsonObj='[';
-	$scope.createJson=function($event){
-			for(var i=0; i<$scope.selectedq.length; i++){
-				if($scope.selectedq[i] != "false"){
-					selectedq_JsonObj+='{"'+(i+1)+'":"' + $scope.selectedq[i] + '"},';	
-				}
-			}
-			selectedq_JsonObj = selectedq_JsonObj.substr(0, selectedq_JsonObj.length-1);
-			selectedq_JsonObj += ']';
-			document.write(selectedq_JsonObj);
-			$event.preventDefault();
-
-		}; */
-
-
-	selectedq_JsonObj='[';
-	weightages_json='[';
-	no_questions_each_weightage_json='[';
-	$scope.createJson=function($event,e){
+		var selectedq_JsonObj='[';
+		var	weightages_json='[';
+		var	no_questions_each_weightage_json='[';
 
  		for(var i=0; i<$scope.no_weightages; i++){
+ 			 if (undefined != $scope.weightages[i] && undefined != $scope.no_questions_each_weightage[i]){ 
  			 weightages_json += '{"weightage":"' + $scope.weightages[i] + '"},';
  			 no_questions_each_weightage_json += '{"no_questions":"' + $scope.no_questions_each_weightage[i] + '"},';
+ 			 	
+ 			}
  		}
- 		weightages_json=weightages_json.substr(0, weightages_json.length-1);
-        no_questions_each_weightage_json=no_questions_each_weightage_json.substr(0, no_questions_each_weightage_json.length-1);
-        weightages_json += ']';
-        no_questions_each_weightage_json += ']';
+
+ 		if (weightages_json != '['){
+ 			weightages_json=weightages_json.substr(0, weightages_json.length-1);
+ 			weightages_json += ']';
+ 		}
+ 		if (no_questions_each_weightage_json != '['){
+
+	        no_questions_each_weightage_json=no_questions_each_weightage_json.substr(0, no_questions_each_weightage_json.length-1);	       
+	        no_questions_each_weightage_json += ']';
+		}
+ 			 	
+ 		
 		for(var i=0; i<$scope.selectedq.length; i++){
 			if($scope.selectedq[i] != "false" && undefined != $scope.selectedq[i]){
-				selectedq_JsonObj+='{"selectedq":"' + $scope.selectedq[i] + '"},';	
+				selectedq_JsonObj+='{"selectedq":"' + $scope.selectedq[i] + '"},';
+				
 			}
 		}
-		selectedq_JsonObj = selectedq_JsonObj.substr(0, selectedq_JsonObj.length-1);
-		selectedq_JsonObj += ']';
-		//document.write(selectedq_JsonObj);
-		//document.write("<br/>");
-		//document.write(weightages_json);
-		//document.write("<br/>");
-		//document.write(no_questions_each_weightage_json);
-		//document.write("<br/>");
-		//document.write("hello");
-		//document.write(e);
 
-		parameters='[{"no_weightages": '+ $scope.no_weightages +'}, {"weightages": ' +weightages_json+ '}, {"no_questions_each_weightage": ' +no_questions_each_weightage_json+ '}, {"selectedque": '+selectedq_JsonObj+ '}, {"total_marks": ' +$scope.total_marks+ '}]';
-		//document.write(parameters);
+		if(selectedq_JsonObj != '['){
+					selectedq_JsonObj = selectedq_JsonObj.substr(0, selectedq_JsonObj.length-1);
+					selectedq_JsonObj += ']';
+				}	
+			
+		
+
+		if ($scope.no_weightages != 0 && undefined != $scope.no_weightages){
+		parameters='[{"no_weightages": '+ $scope.no_weightages +'},';
+		}
+		if(undefined != weightages_json && weightages_json != '['){
+		 parameters += '{"weightages": ' +weightages_json+ '},';
+		}
+		if(undefined != no_questions_each_weightage_json && no_questions_each_weightage_json != '['){
+		parameters += '{"no_questions_each_weightage": ' +no_questions_each_weightage_json+ '},';
+		}
+		if(undefined != selectedq_JsonObj && selectedq_JsonObj != '[')
+		{parameters += '{"selectedque": '+selectedq_JsonObj+ '},';
+		}
+		 parameters +='{"total_marks": ' +$scope.total_marks+ '}]';
+		 //document.write(parameters);
+		return parameters;
+		
+	};
+
+	$scope.submitRequest = function(e){
+		parameters=$scope.createJson(e);
 		$http.post('http://'+$scope.ip_addr+':3000/exam_questions/'+e+'/save_exam_questions.json', {params: parameters}).success(function(data){
 				if(data=="true"){
 					window.location.replace("/exam_questions/"+e+"/view_exam_questions.html");
@@ -522,8 +552,11 @@ App.controller('QTypeCtrl', ['$scope','$http', function($scope, $http) {
 					window.location.replace("/exams/"+e+"/set_questions");
 				}
 			});
-		
 	};
+
+	$scope.restoreValues = function(e){
+		window.location.replace("/exams/"+e+"/set_questions");
+	}
 
 
 }]);

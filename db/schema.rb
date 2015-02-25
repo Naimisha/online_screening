@@ -66,10 +66,11 @@ ActiveRecord::Schema.define(version: 20150217075129) do
     t.string   "exam_name",                   limit: 255
     t.date     "date"
     t.time     "time"
+    t.integer  "total_marks",                 limit: 4
     t.string   "no_weightages",               limit: 255
     t.string   "weightages",                  limit: 255
     t.string   "no_questions_each_weightage", limit: 255
-    t.integer  "total_marks",                 limit: 4
+   
     t.string   "status",                      limit: 255
     t.time     "start_window_time"
     t.time     "end_window_time"
@@ -115,8 +116,8 @@ ActiveRecord::Schema.define(version: 20150217075129) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "timers", ["exam_id"], name: "fk_rails_b29f144422", using: :btree
-  add_index "timers", ["user_id"], name: "fk_rails_35e5dfc429", using: :btree
+  add_index "timers", ["exam_id"], name: "fk_rails_4c4ec13cf8", using: :btree
+  add_index "timers", ["user_id"], name: "fk_rails_6ccd2f731a", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false

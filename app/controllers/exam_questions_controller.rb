@@ -3,18 +3,47 @@ class ExamQuestionsController < ApplicationController
 	respond_to :html
 	require 'json'
 	def set_questions
+		@temp_selection ='';	
    	 	$page_title = "Set Question"
     	@exam=Exam.find_by_id(@e_id)
 	  	@e_id=params[:id]
-		@questions=Question.order("correct_response_count/question_appeared_count DESC ,question_appeared_count DESC").all
+	  	if params.has_key? "params"
+	  		@temp_selection = params[:params]
+	  		puts @temp_selection
+	  	end
+	  	if params.has_key? "sortCriteria" 
+	  		if params[:sortCriteria]=="accuracyDesc" 
+	  			@questions=Question.order("weightage, correct_response_count/question_appeared_count DESC").all
+	  		end
+	  		if params[:sortCriteria]=="accuracyAsc" 
+	  			@questions=Question.order("weightage, correct_response_count/question_appeared_count").all
+	  		end
+
+	  		if params[:sortCriteria]=="usageCountDesc" 
+	  			@questions=[]
+	  			retrieve_question
+	  			#retrieve_zero_count_question
+	  		end
+	  		if params[:sortCriteria]=="usageCountAsc" 
+	  			@questions=[]
+	  			#retrieve_zero_count_question
+	  			retrieve_question
+	  		end
+	  	else
+	  		@questions=Question.order("weightage").all
+	  	end		  		  	
+		#@questions=Question.order("correct_response_count/question_appeared_count DESC ,question_appeared_count DESC").all
+				
 		@max_id=Question.maximum(:id)
 
 		@selected_questions = ExamQuestion.where(:exam_id=> @e_id.to_i).select("question_id")
 		@selected_question_ids = []
 		@selected_questions.each_with_index do |q, index|
 			@selected_question_ids[index] = q.question_id
-		end			
-		respond_with(@questions,@e_id,@selected_question_ids,@exam, @max_id)
+		end	
+
+		respond_with(@questions,@e_id,@selected_question_ids,@exam, @max_id, @temp_selection)
+					
 	end
 
 	def save_exam_questions
@@ -103,6 +132,36 @@ class ExamQuestionsController < ApplicationController
 		 	@e_id=params[:id]
 		else
 			authorize! :manage, :site, :message => "Please sign in first to access the page"
+		end
+	end
+
+	def retrieve_zero_count_question (w)  
+		@dist_que=ExamQuestion.select("distinct question_id")
+		@question=Question.where("id not in (?) and weightage = ?",@dist_que,w)
+		@question.each do |q|
+			@questions.push(q)
+		end
+	end
+
+	def retrieve_question
+		@dist_weightage=Question.select("distinct weightage")
+		@dist_weightage.each do |w|
+
+			@q=Question.select("id").where("weightage = ?",w["weightage"])
+			if params[:sortCriteria]=="usageCountDesc" 
+				@e=ExamQuestion.select("question_id").where("question_id in (?)",@q).group("question_id").order("count(*) DESC")
+			end
+			if params[:sortCriteria]=="usageCountAsc"
+				retrieve_zero_count_question w["weightage"]
+				@e=ExamQuestion.select("question_id").where("question_id in (?)",@q).group("question_id").order("count(*)")
+			end
+			@e.each do |que|
+				@question=Question.find(que["question_id"])
+			 	@questions.push(@question)
+			end
+			if params[:sortCriteria]=="usageCountDesc"
+				retrieve_zero_count_question w["weightage"]
+			end
 		end
 	end
 end
