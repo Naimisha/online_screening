@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6">
+		<table class="table table-hover table-condensed">
+			<caption><h4><b> Candidates of <%= @exam_name%></b><br></h4></caption>
+			<tr class="active">
+				<th>Student id</th>
+				<th>Name</th>
+				<th> Email</th>	
+				<th></th>
+			</tr>
+
+		<% @users.each do |user| %>
+			<tr>
+				<td> <%= user.student_id %></td>
+				<td> <%= user.first_name+" "+user.last_name %></td>
+				<td> <%= user.email %></td>
+				<td> 
+					<a href="/users/<%= user.id%>/change_ip">Change IP</a>
+				</td>
+			</tr>
+		<% end %>
+		</table>
+	</div>
+</div>

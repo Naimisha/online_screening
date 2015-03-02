@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-	has_one :privilege
+	has_one :privilege, :dependent => :delete
 	has_one :role, :through => :privilege
-	has_one :answer_sheet
+	has_one :answer_sheet, :dependent => :destroy
 
 	validates :first_name, :presence=> true
 	validates :last_name, :presence=> true

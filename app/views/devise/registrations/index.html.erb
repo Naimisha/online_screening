@@ -1,0 +1,54 @@
+<% if flash[:success]%>
+	<div class="alert alert-warning">
+   		<a href="#" class="close" data-dismiss="alert">&times;</a>
+   			<%=flash[:success]%>
+   	</div>
+<% end %>
+
+<div id="college_names">
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6">
+			<form class="form-inline" method="post" action="/users/index"> 
+				<div class="form-group">
+					<select class="form-control" name="college_name" ng-model="college_name"> 
+						<option value='' hidden selected>Select College</option>
+						<% for i in 0..@college_names.length-1%>
+						<option value="<%= @college_names[i-1].college_name %>">
+							<%= @college_names[i-1].college_name %>
+						</option>
+						<% end 	%>
+					</select>
+				<button type="submit" class ="btn btn-primary" ng-disabled="college_name==null">View Candidates</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<br>
+
+<div class="row">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6">
+		<table class="table table-condensed table-bordered">
+			<caption><h4><%=@college_name%></h4></caption>
+			<tr class="active">
+				<th>Student id</th>
+				<th>Name</th>
+		        <th>Email</th>
+		        <th></th>
+			</tr>
+			<% @users.each do |user| %>
+				<tr>
+					<td><%= user.student_id %></td>
+					<td><%= user.first_name+" "+user.last_name %></td>
+					<td><%= user.email %></td>
+					<td>
+						<a href="/users/<%= user.id%>/delete">Remove</a>
+					</td>
+				</tr>
+			<% end %>
+		</table>
+	</div>	
+</div>
+

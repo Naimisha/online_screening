@@ -4,6 +4,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_filter :configure_permitted_parameters
 
+  before_action :authentication, :only => [:index, :change_ip, :delete_user,:active_exam_users]
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up).push(:student_id, :first_name, :last_name, :phone_no, :degree, :passing_year, :date_of_birth, :registration_ip)
   end
@@ -28,19 +30,65 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def view_profile
     @user=User.find(params[:id])
-   
-    respond_with(@user)
+   respond_with(@user)
   end
 
+  def index
+    role=Role.find_by_role_name("user");
+    privilege=Privilege.select("user_id").where("role_id = ?",role.id)
+   
+    if params[:college_name].nil?
+      @users=User.all.where("id in (?)",privilege)
+      @college_name="All Candidates"  
+    else
+      @users=User.all.where("id in (?) and college_name = ?",privilege,params[:college_name])
+      @college_name="Candidates of "+params[:college_name]
+    end
+    @college_names=User.all.select("distinct college_name").where("college_name IS NOT NULL")
+    respond_with(@users,@college_names,@college_name)
+  end
 
+  def active_exam_users
+    exam =  Exam.select("id,exam_name, college_name").find_by_status("Activated")
+    answersheet=exam.answer_sheets.select("user_id")
+    @users=User.where("id in (?)",answersheet)
+    @exam_name = exam.exam_name + " "+exam.college_name
+    respond_with(@users,@exam_name)
+  end
+
+  def change_ip
+    @answersheet=AnswerSheet.select("id,start_test_ip").find_by_user_id(params[:id])
+    if params[:ip_address].nil?
+      @user = User.select("id,first_name,last_name").find(params[:id])
+      if @answersheet.nil?
+        flash[:errors]="There is no answersheet for "+@user.first_name+" "+@user.last_name
+      else
+        respond_with(@user,@answersheet)
+      end
+    else
+      @answersheet.start_test_ip=params[:ip_address]
+      @answersheet.save
+      flash[:sucess]="IP address updated to "+ params[:ip_address]
+    end
+  end
+
+  def remove_user
+    User.destroy(params[:id])
+    flash[:success]="User is removed successfully" 
+    redirect_to :action => "index"
+  end
 
   def reset_password
 
       if !params[:confirm_password].nil?
+        if params[:confirm_password]==params[:new_password]
           puts "reset_password"
           current_user.password = params[:confirm_password]
           current_user.save
           redirect_to root_path
+        else
+          flash[:error]="Password and confirm password must be same."
+        end
       end
     
   end
@@ -90,4 +138,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  private
+    def authentication
+      if user_signed_in?
+        authorize! :manage, :site, :message => "Insufficient privileges to access the page"
+      else
+        authorize! :manage, :site, :message => "Please sign in first to access the page"
+      end
+  end 
 end

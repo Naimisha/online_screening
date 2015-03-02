@@ -1,0 +1,57 @@
+<% if flash[:errors]%>
+   <%=flash[:errors]%>
+<% else 
+	if flash[:sucess] 
+%> 
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6">
+			<h4><%=flash[:sucess] %></h4>
+			<% flash[:sucess] = nil %></div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6">
+			<input type="button" class="btn btn-primary" value="Back" onclick="window.history.go(-2);">
+		</div>
+	</div>
+	<% else %>
+	
+		<center>
+		<form method="post" action="/users/<%= @user.id %>/change_ip">
+		<div  class="row">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-6"> 
+				<table class="table table-condensed">
+					<caption><b>Change IP</b></caption>
+					<tr>
+						<th>
+							User :
+						</th>
+						<th>
+							<%= @user.first_name+" "+@user.last_name %>			
+						</th>
+					</tr>
+					<tr>
+						<th>
+							IP :
+						</th>
+						<td>
+							<input type="text" name="ip_address" value="<%= @answersheet.start_test_ip %>"/>
+						</td>
+					<tr>
+					<tr>
+						<td>
+						</td>
+						<td>
+							<button class="btn">Change IP</button>
+						</td>
+					</tr>
+				</table>
+		</div>
+		</div>
+		</form>
+
+		</center>
+	<% end %>
+<% end %>
