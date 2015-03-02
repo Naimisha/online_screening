@@ -47,7 +47,7 @@
 		</div>
 
 
-	<table class="table table-striped">
+	<table class="table table-striped btn-group">
 		<thead>
 			<tr class="">
 				<th></th>
@@ -75,13 +75,12 @@
    					<button type="submit" name="sortCriteria" value="usageCountAsc" class="btn btn-default">
       					<span class="glyphicon glyphicon-sort-by-attributes"></span>
    					</button>Usage Count</form></th>
-			
-			<th></th>
+				<th></th>
 			</tr>
 		</thead>
 
 		<% @questions.each_with_index do |q, index| %>
-			<tr class="">	
+			<tr class="" ng-show ="weightages.indexOf(<%= q.weightage%>)!= -1 && weightages.indexOf(<%= q.weightage%>) < no_weightages" >	
 				<td>			
 				    <input type="checkbox"  name="<%=q.id%>" value="<%=q.id%>" ng-model="selectedq[<%= q.id-1 %>]" ng-true-value="<%=q.id%>" ng-false-value="false" >				    
 				</td>
