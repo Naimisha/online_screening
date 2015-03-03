@@ -1,5 +1,11 @@
 <%= link_to 'Edit ', edit_exam_path(@exam), :method=> :post  %> <span>|</span>
-<%= link_to 'Set Questions ',@exam.id.to_s+"/set_questions", :method=> :post%><span>|</span>
+<% d = Date.parse(@exam.date.to_s) %>
+    <% t1= Time.parse(@exam.end_window_time.to_s) %>
+    <% t2 = Time.mktime(d.year, d.mon, d.mday, t1.hour, t1.min)%>
+    <% if t2-Time.now > 0 %>
+
+      <%= link_to 'Set Questions ',@exam.id.to_s+"/set_questions", :method=> :post%><span>|</span>
+    <%  end %>
 <%= link_to 'Back', exams_path %>
 
 <table class="table table-responsive table-bordered table-hover table-condensed">

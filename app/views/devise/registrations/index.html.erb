@@ -41,7 +41,7 @@
 			<% @users.each do |user| %>
 				<tr>
 					<td><%= user.student_id %></td>
-					<td><%= user.first_name+" "+user.last_name %></td>
+					<td><a href ="/users/<%= user.id %>/view_details"><%= user.first_name+" "+user.last_name %></a></td>
 					<td><%= user.email %></td>
 					<td>
 						<a href="/users/<%= user.id%>/delete">Remove</a>

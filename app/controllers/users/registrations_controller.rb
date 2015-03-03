@@ -33,6 +33,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
    respond_with(@user)
   end
 
+  def view_details
+    @user=User.find(params[:id])
+   respond_with(@user)
+  end
+
   def index
     role=Role.find_by_role_name("user");
     privilege=Privilege.select("user_id").where("role_id = ?",role.id)

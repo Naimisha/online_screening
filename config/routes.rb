@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     get "/users" => "users/registrations#index"
     post "/users/index" => "users/registrations#index"
     get "users/:id/delete" => "users/registrations#remove_user"
+
+    get "users/:id/view_details" => "users/registrations#view_details"
     
   end
 
