@@ -1,3 +1,4 @@
+<div style="margin-top: -65px">
 <% if flash[:errors]%>
    <%=flash[:errors]%>
 <% else %>
@@ -5,26 +6,33 @@
 
 <form name="test" action="{{'/answer_sheets/'+id+'/display_test'}}" method="post" ng-init="initParam('<%= @countdown %>','<%= Socket.ip_address_list[1].ip_address%>'); " ng-controller="QuestionCtrl as question_ctrl">
 		<input type="hidden" value="{{id}}" name="id">
-		<div class="row">
+		<div class="container row">
 			<div class="col-sm-10">
 				<small>This question carries {{question_weightage}} marks.</small>
-				<h4>Q{{question_no+1}}. {{quest}}</h4>
-				<div class="col-sm-5">
-					<div class="row">
+				<h3>Question : {{question_no+1}}</h3><pre><code><h4>{{quest}}</h4></code></pre>
+				<div ng-show="image!='' && image != null" class="row">
+					<div class="col-sm-3"></div>
+					<img src="{{'/images/'+image}}" style="width: 600px;"></img>
+				</div>
+				<div class="container row">
+					<div class="container row">
 						<div ng-repeat="option in options" ng-if = "question_type == 'mcq'">
-							<div class="col-sm-4"></div>
-							<div class="col-sm-8">
+							<div class="col-sm-2"></div>
+							<div class="col-sm-4">
+							
 								<div class="radio">
-									<input type="radio" name ="ans"  value="{{option.opt}}" ng-model="answer" ng-click="setAnswer(option.opt)"><h4>{{option.opt}}</h4>
+									<input type="radio" name ="ans"  value="{{option.opt}}" ng-model="answer" ng-click="setAnswer(option.opt)" style="margin-top: 20px"><pre class="option-pre-tag"><code><h4>{{option.opt}}</code></h4></pre>
 								</div>
-							</div>
+
+						</div>
 						</div>
 								
 						<div ng-repeat="option in options" ng-if = "question_type == 'multi'">
-							<div class="col-sm-4"></div>
-							<div class="col-sm-8">
+							<div class="col-sm-2"></div>
+							<div class="col-sm-4">
 								<div class="checkbox">
-									<input type="checkbox" name ="answer" value="{{option.opt}}" ng-model="given_answer[$index]" ng-true-value="{{option.opt}}" ng-false-value="#" ><h4>{{option.opt}}</h4>
+									<input type="checkbox" name ="answer" value="{{option.opt}}" ng-model="given_answer[$index]" ng-true-value="{{option.opt}}" ng-false-value="#" >
+									<pre class="option-pre-tag"><h4>{{option.opt}}</h4></pre>
 								</div>
 							</div>
 						</div>	
@@ -37,11 +45,10 @@
 					    </div>
 					</div>
 				</div>
-				<div ng-if="image!=''" class="col-sm-7">
-					<img src="{{'/images/'+image}}" style="width: 600px;"></img>
-				</div>
+		
 			</div>
-			<div class="col-sm-2 bg-info bottom-padding">
+
+			<div class="col-sm-2 bg-info control-box" style="position:fixed">
 				<div class="row bg-primary">
 					<center>
 						<h5>Remaining Time</h5>
@@ -89,3 +96,4 @@
 		</div>
 </form>
 <% end %>
+</div>

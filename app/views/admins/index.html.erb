@@ -18,6 +18,11 @@
 			</tr>
 			<tr>
 				<td>
+					<%= f.text_field :college_name, :class => "form-control",:placeholder => "College Name" %>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<center>
 						<%= f.file_field :userdata, :class => "form-control" %><br>
 						<%= f.submit "Upload and Create Users", :class => "btn btn-success" %>

@@ -2,11 +2,22 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.bottom-padding{
+.control-box{
+	
+	top: 95px;
+	right: 0px;
 	padding-bottom: 10px;
 }
 
 .Timer{
 	font-family: "arial";
 	font-size: 20px;
+}
+pre{
+	font-family: "Times New Roman";
+}
+.option-pre-tag{
+	background-color: white;
+	border: 0px;
+	margin: -1.5em 0;
 }

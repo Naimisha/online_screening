@@ -62,7 +62,7 @@ class AdminsController < ApplicationController
 			  		enc_password = Digest::MD5.hexdigest(password)[0..9]
 			  		user = [row[1]+" "+row[2], row[6], enc_password]
 			  		@users.push(user)
-			  	    u=User.create(:student_id => row[0],:first_name => row[1],:last_name => row[2],:phone_no => row[3],:degree => row[4],:passing_year => row[5],:email => row[6],:date_of_birth => row[7],:password => enc_password)
+			  	    u=User.create(:student_id => row[0],:first_name => row[1],:last_name => row[2],:phone_no => row[3],:degree => row[4],:passing_year => row[5],:email => row[6],:date_of_birth => row[7],:password => enc_password, :college_name => params[:admins][:college_name])
 		            
 		            if u.valid?
 				  	    p = Privilege.new

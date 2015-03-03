@@ -39,7 +39,7 @@
 
   <tr>
     <th>Question image</th>
-    <% if @question[:image] != nil %>
+    <% if @question[:image] != nil && @question[:image] != '' %>
       <td><%= image_tag @question[:image], :width => "300px" %></td>
     <% else %>
       <td><%= content_tag :b, "None" %></td>
