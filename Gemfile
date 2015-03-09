@@ -2,9 +2,11 @@ source 'https://rubygems.org'
 
 gem 'json'
 
+gem 'email_verifier'
+
 gem 'digest'
 gem 'hirb'
-
+gem  'passenger'
 gem 'spreadsheet'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'

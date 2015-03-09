@@ -19,6 +19,23 @@
 		</tr>
 	<% end %>
 	</table>
+	<h4> Unable to create the following users. </h4>
+	<table class = "table table-stripped table-condensed">
+	<tr>
+		<th> Serial No.</th>
+		<th> Name </th>
+		<th> Email </th>
+		<th> Error Message </th>
+	</tr>
+	<% @users_not_created.each_with_index do |user_not_created, index| %>
+		<tr>
+			<td> <%= index+1 %> </td>
+			<td> <%= user_not_created[0] %> </td>
+			<td> <%= user_not_created[1] %> </td>
+			<td> <%= user_not_created[2] %> </td>
+		</tr>
+	<% end %>
+	</table>
 </div>
 <div id = "links" ng-controller ="printCtrl"> 	
 	<a href="/admins/download" class="btn btn-success">Download</a>

@@ -69,8 +69,8 @@
         <div ng-repeat="n in [] | range:nooptions">
           <div class="field">
               <span ng-switch on="qtype">
-                <span ng-switch-when="mcq"><input type="radio" name="ans" value="{{$index+1}}" ng-checked="checkAns[$index]"></span>
-                <span ng-switch-when="multi"><input type="checkbox" name="ans{{$index+1}}" value="{{$index+1}}" ng-checked="checkAns[$index]"></span>
+                <span ng-switch-when="mcq"><input type="radio" name="ans" ng-value="{{$index+1}}" ng-model="checkAns[$index]"></span>
+                <span ng-switch-when="multi"><input type="checkbox" name="ans{{$index+1}}" ng-true-value="{{$index+1}}" ng-false-value="0" ng-model="checkAns[$index]"></span>
               </span>
               <span>
                 <label>Option{{$index+1}}</label>

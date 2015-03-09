@@ -39,6 +39,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def index
+    $page_title = "Remove User"
     role=Role.find_by_role_name("user");
     privilege=Privilege.select("user_id").where("role_id = ?",role.id)
    
@@ -54,6 +55,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def active_exam_users
+    $page_title = "Change IP"
     exam =  Exam.select("id,exam_name, college_name").find_by_status("Activated")
     answersheet=exam.answer_sheets.select("user_id")
     @users=User.where("id in (?)",answersheet)
@@ -62,6 +64,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def change_ip
+    $page_title = "Change IP"
     @answersheet=AnswerSheet.select("id,start_test_ip").find_by_user_id(params[:id])
     if params[:ip_address].nil?
       @user = User.select("id,first_name,last_name").find(params[:id])

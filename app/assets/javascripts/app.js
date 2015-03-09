@@ -347,11 +347,11 @@ App.controller('OptionCtrl', ['$scope', function($scope) {
 				$scope.optionVal[i] = optionsJsonObj[i]["opt"];
 				if(ansIndex < answers && optionsJsonObj[i]["opt"] == answersJsonObj[ansIndex]["ans"] ){
 					ansIndex++;
-					$scope.checkAns[i] = 1;
+					$scope.checkAns[i] = (i+1).toString() ;
 				}else{
 					if(ansIndex < answers && answersJsonObj[ansIndex]["ans"] == "#")
 						ansIndex++;
-					$scope.checkAns[i] = 0;
+					$scope.checkAns[i] = "0";
 				}
 			}
 
@@ -371,6 +371,21 @@ App.controller('OptionCtrl', ['$scope', function($scope) {
 				return;
 			}
 		}
+		if($scope.validateAns()){
+			alert(" Please Specify Correct Answer");
+			$event.preventDefault();
+		    return;
+		}
+
+	
+	};
+	$scope.validateAns=function(){
+		for(i=0;i<$scope.checkAns.length;i++){
+			if($scope.checkAns[i] != "0")
+				return 0; 
+			
+		}
+		return 1;
 	}
 
 }] );

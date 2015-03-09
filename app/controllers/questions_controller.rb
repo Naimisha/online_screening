@@ -46,8 +46,11 @@ class QuestionsController < ApplicationController
   def destroy
     @question = Question.find(params[:id])
     @question.destroy
+     redirect_to :action => 'index'
+     flash[:questionDeletionMessage] = "Question Deleted."
   rescue Exception => e
-    flash[:questionerror] = "You cannot delete this Question, it is already in use."
+    flash[:questionDeletionMessage] = "You cannot delete this Question, it is already in use."
+
 
     redirect_to :action => 'index'
   end
