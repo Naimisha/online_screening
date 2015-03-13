@@ -7,6 +7,7 @@ class AdminsController < ApplicationController
 
 	def add_admin
 		$page_title = "Add Admin"
+		flash[:add_admin_message] = nil
 		if !params[:admins].nil? 
 		    if EmailVerifier.check(params[:admins][:email])
 				require 'digest/md5'
@@ -26,7 +27,7 @@ class AdminsController < ApplicationController
 		      		p.user_id = @user.id
 		      		p.role_id = Role.find_by_role_name("admin").id;
 		      		if p.save
-		      	   		SendPassword.send_mail(params[:admins][:email],params[:admins][:first_name]+ params[:admins][:last_name],enc_password).deliver
+		      	   		SendPassword.send_mail_admin(params[:admins][:email],params[:admins][:first_name]+" " + params[:admins][:last_name],enc_password,current_user.first_name+" "+current_user.last_name).deliver
 		    			flash[:add_admin_message] = "Successfully admin added"
 		    		end
 		    	else
@@ -79,7 +80,7 @@ class AdminsController < ApplicationController
 					      		p.user_id = u.id
 					      		p.role_id = Role.find_by_role_name("user").id;
 					      		p.save
-					      		SendPassword.send_mail(row[6],row[6],enc_password).deliver  
+					      		SendPassword.send_mail_student(row[6],row[6],enc_password).deliver  
 					      		row[8]=enc_password
 					      		row[9]="Yes"   		
 					      	else

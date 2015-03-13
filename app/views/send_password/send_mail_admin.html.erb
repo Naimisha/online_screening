@@ -1,0 +1,26 @@
+<!DOCTYPE html> 
+<html>
+	 <head>
+	  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+	 </head>
+	 <body> 
+	 	Hello <%= @user_name %>, <br>
+
+	 	<%= @sender_name %> has added you as an admin to online screening. <br> <br> 
+	 	Your login credentials. <br> 
+	 	Id : <%= @email%> <br> 
+	 	Password : <%= @password %><br>
+	 	Kindly login and reset your password.<br><br>
+		Thank You!<br><br>
+		<%= image_tag attachments['image.png'].url, :width => "300px" %><br><br>
+
+			W: <a href="www.infibeam.com" >www.infibeam.com</a>
+
+		<h4>Reduce your environmental footprint. Print only if necessary.</h4>
+
+		<h5>CONFIDENTIALITY INFORMATION AND DISCLAIMER</h5>
+		<p style="font-size : 95% ">
+			This email message and its attachments may contain confidential, proprietary or legally privileged information and is intended solely for the use of the individual or entity to whom it is addressed. If you have erroneously received this message, please delete it immediately and notify the sender. If you are not the intended recipient of the email message you should not disseminate, distribute or copy this e-mail. E-mail transmission cannot be guaranteed to be secure or error-free as information could be intercepted, corrupted, lost, destroyed, incomplete or contain viruses and the sender accepts no liability for any damage caused by the limitations of the e-mail transmission.
+		</p>
+	 </body>
+ </html>
