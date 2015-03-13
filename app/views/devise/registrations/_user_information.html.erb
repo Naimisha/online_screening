@@ -1,11 +1,21 @@
+<script type="text/javascript">
+	 goBack = function(){
+		
+		window.history.go(-1);
+	}
+</script>
+
+
 <div class="row">
 	<div class="col-sm-4"></div>
 	<div class="col-sm-4">
 		<table class="table table-responsive table-bordered table-hover table-condensed">
+			<% if !@user.student_id.nil? %>
 			<tr class="active">
 				<th> Student id :</th>
 				<td> <%= "  "+@user.student_id%></td>
 			</tr>
+			<% end %>
 			<tr class="active">
 				<th> Name :</th>
 				<td> <%= "  "+@user.first_name+"  "+@user.last_name%></td>
@@ -24,6 +34,8 @@
 				<th> Contact:</th>
 				<td> <%= "  "+@user.phone_no%></td>
 			</tr>
+
+			<% if !@user.degree.nil? %>
 			<tr class="active">
 				<th> Degree :</th>
 				<td> <%= "  "+@user.degree%></td>
@@ -32,3 +44,7 @@
 				<th> Passing Year :</th>
 				<td> <%= "  "+@user.passing_year.to_s%></td>
 			</tr>
+			<% end %>
+		</table>
+	</div>
+</div>

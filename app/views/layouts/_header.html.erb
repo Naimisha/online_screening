@@ -12,9 +12,12 @@
 							<%= current_user.first_name + ' ' + current_user.last_name %><b class="caret"></b>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Settings</a></li>
+							<li><a href="/users/<%= current_user.id%>/view_profile" target="_blank" >View Profile</a></li>
+							<li class="divider"></li>
+							<li><a href="/users/<%= current_user.id%>/account_settings" data-method="get">Account Settings</a></li>
 							<li class="divider"></li>
 							<li><li><%= link_to 'Sign out', destroy_user_session_path, :method => :delete %></li></li>
+
 						</ul>
 					</li>
 				<% else %>					

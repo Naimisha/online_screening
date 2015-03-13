@@ -1,17 +1,10 @@
 <%= render 'user_information' %>
-			<tr>
-				<td>
-				</td>
-				<td colspan="2">
-					<a href = "/users" class="btn btn-primary">Back</a>				</td>				
-			</tr>
-		</table>
+
+<div class="row">
+	<div class="col-sm-4"></div>
+	
+	<div class="col-sm-4">
+		<a href="/answer_sheets/<%= @user.id %>/display_test" data-method="get" class="btn btn-success">View Answersheet</a>
 	</div>
 </div>
 
-<script type="text/javascript">
-	 goBack = function(){
-		
-		window.history.go(-1);
-	}
-</script>

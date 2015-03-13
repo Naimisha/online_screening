@@ -6,6 +6,8 @@ class Exam < ActiveRecord::Base
 	validates :exam_name, :presence=> true
 	validates :college_name, :presence=> true
 	validates :duration_mins, :presence=> true, :numericality=> {only_integer: true, greater_than_or_equal_to: 0 }
+	validates :start_window_time, :presence =>true
+	validates :end_window_time, :presence => true
 	#validates :marks, :presence=> true, :numericality=> {only_integer: true, reater_than_or_equal_to: 0 }
 	validates :date, :presence=> true
 	#validates :time, :presence=> true

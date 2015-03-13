@@ -28,13 +28,40 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def edit
+      $page_title = "Edit Profile"
+      @user= User.find(params[:id])
+      respond_with(@user)
+  end
+
+  def update
+      @user = User.find(params[:id])
+      @user.first_name = params[:first_name]
+      @user.last_name = params[:last_name]
+      @user.phone_no = params[:phone_no]
+      @user.date_of_birth = params[:date_of_birth]
+      flag = @user.save
+
+      if flag
+          flash[:update_message] = "Your Details successfully updated"
+          redirect_to :action =>"view_profile", :id => @user.id
+      else
+          respond_with(@user, :location =>"/users/"+@user.id.to_s+"/edit")  
+      end
+  end
   def view_profile
     @user=User.find(params[:id])
-   respond_with(@user)
+    if @user.id == current_user.id
+      $page_title = "Your profile"
+    else
+      $page_title = @user.first_name+" "+" 's Profile"
+    end
+    respond_with(@user)
   end
 
   def view_details
     @user=User.find(params[:id])
+    $page_title = @user.first_name+ " " +"'s Profile"
    respond_with(@user)
   end
 
@@ -87,20 +114,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def reset_password
-
-      if !params[:confirm_password].nil?
-        if params[:confirm_password]==params[:new_password]
-          puts "reset_password"
-          current_user.password = params[:confirm_password]
-          current_user.save
-          redirect_to root_path
-        else
-          flash[:error]="Password and confirm password must be same."
-        end
-      end
-    
+    $page_title = "Reset Password"
+    update_password 
   end
-
+  def change_password
+    $page_title = "Change Password"
+    if !params[:current_password].nil?
+      if params[:current_password]!=""
+        if current_user.valid_password?(params[:current_password])
+          update_password
+        else
+          flash[:error]="Invaild Current Password"
+        end
+      else
+        flash[:error]="Current Password can not be blank"
+      end
+    end
+  end
   # GET /resource/edit
   # def edit
   #   super
@@ -153,5 +183,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
       else
         authorize! :manage, :site, :message => "Please sign in first to access the page"
       end
-  end 
+    end 
+
+    def update_password 
+      if !params[:confirm_password].nil?
+        if params[:confirm_password]==params[:new_password]
+          current_user.password = params[:confirm_password]
+          current_user.save
+          redirect_to root_path 
+        else
+          flash[:error]="Password and confirm password must be same."
+        end
+      end
+    end
 end

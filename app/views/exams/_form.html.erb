@@ -1,49 +1,62 @@
 <%= form_for(@exam) do |f| %>
-  <% if @exam.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this exam from being saved:</h2>
+      <div class="row">
+        <label for="exam_exam_name">Exam name</label>
+        <input class="form-control" type="text" name="exam[exam_name]" id="exam_exam_name" value="<%= @exam.exam_name%>" />
+        <p class="text text-danger"><%if !@exam.nil? && !@exam.errors.messages.nil?  && !@exam.errors.messages[:exam_name].nil?%>
+           Exam name <%= @exam.errors.messages[:exam_name][0] %>
+        <% end %></p>
 
-      <ul>
-      <% @exam.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-    <div class="row">
-        <%= f.label :exam_name %>
-        <%= f.text_field :exam_name, :class => "form-control" %>
     </div><br>  
     
     <div class="row" >
-        <%= f.label :date %>
-        <%= f.date_field :date, :class => "form-control"%>
+        <label for="exam_date">Date</label>
+        <input class="form-control" type="date" name="exam[date]" id="exam_date" value="<%= @exam.date%>" />
+
+        <p class="text text-danger"><%if !@exam.nil? && !@exam.errors.messages.nil?  && !@exam.errors.messages[:date].nil?%>
+           Date <%= @exam.errors.messages[:date][0] %>
+        <% end %></p>
     </div><br>
 
     <div class="row" style="display: none;" >
-        <%= f.label :time %>
-        <%= f.time_field :time, :class => "form-control"%>
+        <label for="exam_time">Time</label>
+        <input class="form-control" type="time" name="exam[time]" id="exam_time"  value="<%= @exam.time%>" />     
     </div>
 
     <div class="row">
-        <%= f.label :duration_mins%>
-        <%= f.number_field :duration_mins, :class => "form-control" %>
+         <label for="exam_duration_mins">Duration mins</label>
+        <input class="form-control" type="number" name="exam[duration_mins]" id="exam_duration_mins" value="<%= @exam.duration_mins%>" />
+
+        <p class="text text-danger"><%if !@exam.nil? && !@exam.errors.messages.nil?  && !@exam.errors.messages[:duration_mins].nil?%>
+           Duration Mins <%= @exam.errors.messages[:duration_mins][0] %>
+        <% end %></p>
+
     </div><br>
 
     <div class="row" >
-        <%= f.label :start_window_time, "Start Window Time" %>
-        <%= f.time_field :start_window_time, :class => "form-control"%>
+        <label for="exam_start_window_time">Start Window Time</label>
+        <input class="form-control" type="time" name="exam[start_window_time]" id="exam_start_window_time" value="<% if !@exam.start_window_time.nil?%><%= @exam.start_window_time.strftime "%H:%M:%S"%><% end %>" />
+
+        <p class="text text-danger"><%if !@exam.nil? && !@exam.errors.messages.nil?  && !@exam.errors.messages[:start_window_time].nil?%>
+           Start Window Time <%= @exam.errors.messages[:start_window_time][0] %>
+        <% end %></p>
     </div><br>
 
     <div class="row" >
-        <%= f.label :end_window_time, "End Window Time" %>
-        <%= f.time_field :end_window_time, :class => "form-control"%>
+        <label for="exam_end_window_time">End Window Time</label>
+        <input class="form-control" type="time" name="exam[end_window_time]" id="exam_end_window_time"  value="<% if !@exam.end_window_time.nil?%><%= @exam.start_window_time.strftime "%H:%M:%S"%><% end %>" />
+
+        <p class="text text-danger"><%if !@exam.nil? && !@exam.errors.messages.nil?  && !@exam.errors.messages[:end_window_time].nil?%>
+           End Window Time <%= @exam.errors.messages[:end_window_time][0] %>
+        <% end %></p>
     </div><br>
 
     <div class="row">
-        <%= f.label :college_name %>
-        <%= f.text_field :college_name, :class => "form-control" %>
+        <label for="exam_college_name">College name</label>
+        <input class="form-control" type="text" name="exam[college_name]" id="exam_college_name"  value="<%= @exam.college_name%>" />
+
+        <p class="text text-danger"><%if !@exam.nil? && !@exam.errors.messages.nil?  && !@exam.errors.messages[:college_name].nil?%>
+           College name <%= @exam.errors.messages[:college_name][0] %>
+        <% end %></p>
     </div><br> 
 
     <div class="row">

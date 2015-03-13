@@ -1,5 +1,8 @@
 <% if flash[:add_admin_message] %>
-  <%= flash[:add_admin_message] %>
+ <div class="alert alert-warning">
+      <a href="#" class="close" data-dismiss="alert">&times;</a>
+         <%= flash[:add_admin_message] %>
+</div>
 <% end %>
 
 

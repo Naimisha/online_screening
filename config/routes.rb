@@ -3,18 +3,26 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :registrations => "users/registrations",:passwords => "users/passwords" }
   devise_scope :user do 
     get "/users" => "users/registrations#index"
+    post "/users/index" => "users/registrations#index"
+
     get "/users/reset_passwords" => "users/registrations#reset_password"
+
     get "/users/:id/view_profile" => "users/registrations#view_profile"
+    get "users/:id/view_details" => "users/registrations#view_details"
+
     post "/users/reset_password" => "users/registrations#reset_password"
+
     get "/users/:id/change_ip" => "users/registrations#change_ip"
     post "/users/:id/change_ip" => "users/registrations#change_ip"
     get "users/change_ip" => "users/registrations#active_exam_users"
-    get "/users" => "users/registrations#index"
-    post "/users/index" => "users/registrations#index"
+       
     get "users/:id/delete" => "users/registrations#remove_user"
-
-    get "users/:id/view_details" => "users/registrations#view_details"
     
+    get "users/:id/edit" => "users/registrations#edit"
+
+    get "users/:id/account_settings" => "users/registrations#change_password"
+    
+    post "users/:id/account_settings" => "users/registrations#change_password"
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
