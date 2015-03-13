@@ -1,23 +1,19 @@
 <div ng-controller="OptionCtrl" ng-init="initOptions('<%= @question[:options] %>','<%= @question[:answer] %>','<%= @question[:qtype] %>','<%= @question[:image] %>')">
 
 <%= form_for(@question, :html =>{:'ng-submit'=>"validateForm($event)"}) do |f| %>
-  <% if @question.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
-
-      <ul>
-      <% @question.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  
 
   <div class="row">
     <div class="col-sm-6">
       <div class="field">
-          <%= f.label :question %>
-          <%= f.text_area :question, :class => "form-control" %>
+          <label for="question_question">Question</label>
+          <textarea class="form-control" name="question[question]" id="question_question"><%= @question.question %>
+          </textarea>
+
+          <p class="text text-danger"><%if !@question.nil? && !@question.errors.messages.nil?  && !@question.errors.messages[:question].nil?%>
+           Question <%= @question.errors.messages[:question][0] %>
+        <% end %></p>
+
       </div><br>
 
       <div>
@@ -30,30 +26,40 @@
           <% end %>
         </b>
         <span ng-if="image">
-          <%= f.file_field :image, :class => "form-control" %>
+          <input type="checkbox" name="image" ng-model="image">
         </span>
       </div><br>
 
       
 
       <div class="field">
-          <%= f.label :qtype, "Question type" %>
-          <%= f.select :qtype, [['Single Correct Answer Type', 'mcq'], ['Multiple Correct Answer Type', 'multi'], ['Numerical Answer Type', 'numerical']], {}, :'ng-model' => "qtype", :class => "form-control" %>
+           <label for="question_qtype">Question type</label>
+           <select ng-model="qtype" class="form-control" name="question[qtype]" id="question_qtype">
+              <option value="mcq">Single Correct Answer Type</option>
+              <option value="multi">Multiple Correct Answer Type</option>
+              <option value="numerical">Numerical Answer Type</option>
+            </select>
       </div><br>
 
       <div style="display:none">
-        <%= f.label :options %>
-        <%= f.text_field :options %>
+        <label for="question_options">Options</label>
+        <input type="text" name="question[options]" id="question_options" />
       </div>
 
       <div style="display:none">
-        <%= f.label :answer %>
-        <%= f.text_field :answer %>
+       <label for="question_answer">Answer</label>
+        <input type="text" name="question[answer]" id="question_answer" />
       </div>
 
       <div class="field">
-          <%= f.label :weightage%>
-          <%= f.number_field :weightage, :class => "form-control" %>
+          <label for="question_weightage">Weightage</label>
+          <input class="form-control" type="number" name="question[weightage]" id="question_weightage"  value="<%= @question.weightage %>" />
+
+          <p class="text text-danger"><%if !@question.nil? && !@question.errors.messages.nil?  && !@question.errors.messages[:weightage].nil?%>
+           Weightage <%= @question.errors.messages[:weightage][0] %>
+        <% end %></p>
+
+
       </div><br>
 
       <div class="field">
@@ -82,7 +88,7 @@
       <div ng-if="qtype == 'numerical'" class="field">
           <label>Answer</label>
           <input type="text" name="option1" placeholder="Answer" ng-model="optionVal[0]", class="form-control">
-          <%= f.hidden_field :nooptions, :value => 1 %>
+              <input value="1" type="hidden" name="question[nooptions]" id="question_nooptions" />
       </div><br>
     </div>
 </div>
