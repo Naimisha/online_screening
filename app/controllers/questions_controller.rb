@@ -1,11 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :authentication
-
+  WillPaginate.per_page = 7
   respond_to :html
   require 'json'
   def index
     $page_title = "Question Pool"
-    @questions=Question.order("correct_response_count/question_appeared_count DESC ,question_appeared_count DESC").all
+    @questions=Question.paginate(:page => params[:page]).order("correct_response_count/question_appeared_count DESC ,question_appeared_count DESC")
     respond_with(@questions)
   end
 

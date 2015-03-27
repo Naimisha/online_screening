@@ -13,7 +13,7 @@ gem 'rails', '4.2.0'
 ruby '1.9.3'
 # Use sqlite3 as the database for Active Record
 gem 'mysql'
-
+gem 'will_paginate', '~> 3.0.6'
 gem 'angular-rails-templates'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

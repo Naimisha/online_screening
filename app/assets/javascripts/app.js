@@ -364,6 +364,13 @@ App.controller('OptionCtrl', ['$scope', function($scope) {
 	};
 
 	$scope.validateForm = function($event){
+		var nooption  = parseInt($scope.nooptions);
+		if($scope.qtype != "numerical" && nooption <= 1){
+			alert("No of options cannot be 0 or 1 as it is multiple choice question.");
+			$event.preventDefault();
+			return;
+		}
+		alert($scope.nooptions);
 		for(i = 0; i < $scope.nooptions; i++){
 			if($scope.optionVal[i] == ""){
 				alert("Option/Answer field(s) cannot be empty.");
@@ -371,13 +378,13 @@ App.controller('OptionCtrl', ['$scope', function($scope) {
 				return;
 			}
 		}
-		if($scope.validateAns()){
-			alert(" Please Specify Correct Answer");
-			$event.preventDefault();
-		    return;
+		if($scope.qtype != "numerical"){
+			if($scope.validateAns() ){
+				alert(" Please Specify Correct Answer");
+				$event.preventDefault();
+			    return;
+			}
 		}
-
-	
 	};
 	$scope.validateAns=function(){
 		for(i=0;i<$scope.checkAns.length;i++){

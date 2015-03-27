@@ -93,6 +93,7 @@ class AnswerSheetsController < ApplicationController
 	end
 
 	def display_test
+		$page_title = "View AnswerSheet"
 		@users_question="";
 		if can? :manage,:site
 			puts params[:id]

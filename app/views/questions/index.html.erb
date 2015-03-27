@@ -21,7 +21,7 @@
 			</td>
 			<td>
 				<% if q.question_appeared_count != 0 %>
-					<%= (q.correct_response_count.to_f/q.question_appeared_count).round(2)*100 	%>
+					<%= ((q.correct_response_count.to_f/q.question_appeared_count)*100).round(2) %>
 				<% else %>
 					-
 				<% end %>
@@ -36,4 +36,13 @@
 			</td>							
 		</tr>	
 	<% end %>
+		<tr>
+			<td colspan="4">
+				<div class ="digg_pagination">
+	      			<%= page_entries_info @questions %>
+	    			<center> <%= will_paginate @questions %> </center>
+	  			</div>
+	  		</td>
+  		</tr>		
+
 </table>
