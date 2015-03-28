@@ -1,9 +1,52 @@
 <% if flash[:errors]%>
    <%=flash[:errors]%>
 <% else %>
-	<form method="get" action="/answer_sheets/start_timer">
-		<input type="submit" value="Start Exam">
-	</form>
-	
+	<div class="test-instructions">
+		<h1>Generic Test Instructions</h1><hr>
+		<h3>Test environment</h3>
+		<ul>
+			<li>Total number of questions in the test can be found in the navigation panel on the right of the computer screen.
+			<li>The index number and weightage of current question can be found in the top-left corner of the computer screen.
+			<li>Question text will appear in the grey box just below the index number of the question.
+			<li>If any question contains an image, it will appear just below the question.
+			<li>Options or textbox for the answer to the question will appear below the image if the image is present and below the question text otherwise.
+			<li>Time remaining for the test can be found in the navigation panel on the right of the computer screen. The timer is a count-down timer.
+		</ul>
+
+		<h3>Answering a question</h3>
+		<ul>
+			<li>There are three types of the questions in the test as follows
+				<ol>
+					<li>Single correct answer type.
+					<li>Multiple correct answer type.
+					<li>Numeric answer type.
+				</ol>
+			<li>To answer <em>Single Correct Answer Type</em> question, select the radio button againt the correct option. Only one option can be selected for this type of questions.
+			<li>To answer <em>Multiple Correct Answer Type</em> question, select the checkboxes against the correct options. Multiple options can be selected for this type of questions.
+			<li>To answer <em>Numeric Answer Type</em>, write down the answer in the textbox using keyboard. Only digits and atmost one decimal point should be inserted in the textbox. Do not use blank spaces while answering.
+			<li>To clear the response given to the current question, click on <em>Clear</em> button appearing on the bottom of the screen.
+		</ul>
+
+		<h3>Submitting responses</h3>
+		<ul>
+			<li>In the following scenario, the responses of the candidate will be submitted successfully
+				<ol>
+					<li>Timer goes to 00:00.
+					<li>Candidate submits the test.
+				</ol>
+			<li>The second scenario will take place when the candidate follows the steps below
+				<ol>
+					<li>Candidate clicks the <em>Finish</em> button at the bottom of the screen. The button will be enabled only at the last question of the test. On clicking the button, the review page of the candidate's responses will appear.
+					<li>From the review page, the candidate can go <em>Back</em> to the test and modify the responses or can <em>Submit</em> the test.
+					<li>After clicking on the <em>Submit</em> button on review page, the responses of the candidate will be submitted.
+				</ol>
+			<li>In all other scenarios, the test will remain unsubmitted and the responses of the candidate will not be considered to generate the result.
+		</ul>
+		<center>
+			<form method="get" action="/answer_sheets/start_timer">
+				<button class="btn btn-info" type="submit">Start Exam</button>
+			</form>
+		</center>
+	</div>	
 
 <%end%>

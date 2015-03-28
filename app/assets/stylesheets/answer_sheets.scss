@@ -21,3 +21,33 @@ pre{
 	border: 0px;
 	margin: -1.5em 0;
 }
+
+.test-instructions{
+	position: absolute;
+	left: 50%;
+	margin-left: -350px;
+	width: 700px;
+	padding: 10px 10px 10px 10px;
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	border-radius: 50px;
+	border-color: grey;
+}
+
+.test-instructions hr{
+	border: 0;
+	border-top: 1px solid grey;
+}
+
+.test-instructions h1{
+	color: red;
+}
+
+.test-instructions h3{
+	color: #08C;
+}
+
+.test-instructions em{
+	color: #08C;
+}
