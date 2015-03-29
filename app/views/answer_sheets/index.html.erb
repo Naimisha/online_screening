@@ -1,99 +1,111 @@
 <div style="margin-top: -65px">
-<% if flash[:errors]%>
-   <%=flash[:errors]%>
-<% else %>
-
 
 <form name="test" action="{{'/answer_sheets/'+id+'/display_test'}}" method="post" ng-init="initParam('<%= @countdown %>','<%= Socket.ip_address_list[1].ip_address%>'); " ng-controller="QuestionCtrl as question_ctrl">
 		<input type="hidden" value="{{id}}" name="id">
-		<div class="container row">
-			<div class="col-sm-10">
-				<small>This question carries {{question_weightage}} marks.</small>
-				<h3>Question : {{question_no+1}}</h3><pre><code><h4>{{quest}}</h4></code></pre>
-				<div ng-show="image!='' && image != null" class="row">
-					<div class="col-sm-3"></div>
-					<img src="{{'/images/'+image}}" style="width: 600px;"></img>
-				</div>
-				<div class="container row">
-					<div class="container row">
-						<div ng-repeat="option in options" ng-if = "question_type == 'mcq'">
-							<div class="col-sm-2"></div>
-							<div class="col-sm-4">
-							
-								<div class="radio">
-									<input type="radio" name ="ans"  value="{{option.opt}}" ng-model="answer" ng-click="setAnswer(option.opt)" style="margin-top: 20px"><pre class="option-pre-tag"><code><h4>{{option.opt}}</code></h4></pre>
-								</div>
 
-						</div>
-						</div>
-								
-						<div ng-repeat="option in options" ng-if = "question_type == 'multi'">
-							<div class="col-sm-2"></div>
-							<div class="col-sm-4">
-								<div class="checkbox">
-									<input type="checkbox" name ="answer" value="{{option.opt}}" ng-model="given_answer[$index]" ng-true-value="{{option.opt}}" ng-false-value="#" >
-									<pre class="option-pre-tag"><h4>{{option.opt}}</h4></pre>
-								</div>
-							</div>
-						</div>	
+		<table style="width:70%">
+			<tr class="question-meta">
+				<td>
+						<h4 style="display: inline">Question: {{question_no+1}}</h4>
+						<small style="float: right">This question carries {{question_weightage}} mark(s).</small>
+				</td>
+			</tr>
 
-					    <div ng-show= "question_type=='numerical'">
-					    	<div class="col-sm-4"></div>
-					    	<div class="col-sm-6">
-					    		<input class="form-control" id="ans" placeholder="Answer" type="text" name="ans" ng-model="answer">
-					    	</div>
-					    </div>
-					</div>
-				</div>
-		
-			</div>
+			<tr class="question-text">
+				<td><pre style="font-size: 15px"><code>{{quest}}</code></pre></td>
+			</tr>
 
-			<div class="col-sm-2 bg-info control-box" style="position:fixed">
-				<div class="row bg-primary">
-					<center>
-						<h5>Remaining Time</h5>
-						<div>
+			<tr class="question-options">
+				<table ng-if="question_type == 'mcq'">
+					<tr ng-repeat="option in options track by $index" ng-if="$index % 2 == 0">
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px;">
+							<input type="radio" name ="ans"  value="{{options[$index].opt}}" ng-model="answer" ng-click="setAnswer(options[$index].opt)"> 
+						</td>
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px; font-size: 15px">
+							{{options[$index].opt}}
+						</td>
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px;" ng-if="options[$index+1]">
+								<input type="radio" name ="ans"  value="{{options[$index+1].opt}}" ng-model="answer" ng-click="setAnswer(options[$index+1].opt)">
+						</td>
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px; font-size: 15px"> 
+								{{options[$index+1].opt}}
+						</td>
+					</tr>
+				</table>
+
+				<table ng-if="question_type == 'multi'">
+					<tr ng-repeat="option in options track by $index" ng-if="$index % 2 == 0">
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px;">
+							<input type="checkbox" name ="answer" value="{{options[$index].opt}}" ng-model="given_answer[$index]" ng-true-value="{{options[$index].opt}}" ng-false-value="#" >
+						</td>
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px; font-size: 15px">
+							{{options[$index].opt}}
+						</td>
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px;" ng-if="options[$index+1]">
+								<input type="checkbox" name ="answer" value="{{options[$index+1].opt}}" ng-model="given_answer[$index+1]" ng-true-value="{{options[$index+1].opt}}" ng-false-value="#" >
+						</td>
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px; font-size: 15px"> 
+								{{options[$index+1].opt}}
+						</td>
+					</tr>
+				</table>
+
+				<table ng-if="question_type == 'numerical'">
+					<tr>
+						<td style="vertical-align: top; padding: 5px 5px 5px 5px;">
+							<input class="form-control" id="ans" placeholder="Answer" type="text" name="ans" ng-model="answer">
+						</td>
+					</tr>
+				</table>
+			</tr>
+
+			<tr class="question-image">
+				<img src="{{'/images/'+image}}" style="width: 50%; border: 1px solid black; padding: 5px 5px 5px 5px" ng-if="image != '' && image != null">
+			</tr>
+		</table>
+
+		<div style="position: absolute; top: 65px; right: 20px; float: right; border: double; padding: 10px 10px 10px 10px;">
+			<center>
+				<table>
+					<tr>
+						<td style="text-align: center">
+							<h4 style="color: red">Remaining Time</h4>
 							<span class="glyphicon glyphicon-time"></span>&nbsp;
-							<span id="timer" class="Timer"></span>
-						</div>
-					</center>
-				</div>
-				<div class="row bg-info bottom-padding">
-					<center>
-						<h5>Question navigation</h5>
-						<span ng-repeat="question in questions track by $index">
-							<span ng-show="!isAnswered($index)">
-								<button class="btn btn-danger button-margin" type="button" ng-click="setQuestionNo($index)">
-									{{$index+1}}
-								</button>
-							</span>
-							<span ng-show="isAnswered($index)">
-								<button class="btn btn-success button-margin" type="button" ng-click="setQuestionNo($index)">
-									{{$index+1}}
-								</button>
-							</span>
-						</span>
-					</center>
-				</div>
-			</div>
+							<span id="timer" class="timer"></span>
+						</td>
+					</tr>
+				</table>
+				<hr>
+				<table>
+					<tr ng-repeat="question in questions track by $index" ng-if="$index % 3 == 0">
+						<td style="text-align: center">
+							<button class="btn button-margin" ng-class="{'btn-success': isAnswered($index), 'btn-info': $index == question_no}" type="button" ng-click="setQuestionNo($index)"/>{{$index+1}}
+						</td>
+						<td style="text-align: center" ng-if="questions[$index+1]">
+							<button class="btn button-margin" ng-class="{'btn-success': isAnswered($index+1), 'btn-info': $index+1 == question_no}" type="button" ng-click="setQuestionNo($index+1)"/>{{$index+2}}
+						</td>
+						<td style="text-align: center" ng-if="questions[$index+2]">
+							<button class="btn button-margin" ng-class="{'btn-success': isAnswered($index+2), 'btn-info': $index+2 == question_no}" type="button" ng-click="setQuestionNo($index+2)"/>{{$index+3}}
+						</td>
+					</tr>
+				</table>
+			</center>
 		</div>
+
 		<div class="navbar navbar-fixed-bottom navbar-default">
 			<div class="col-sm-5"></div>
 			<div class="col-sm-7">
 				<button class="btn btn-danger navbar-btn" type="button" ng-click="clearResponse()">Clear</button>
 
-				<button class="btn btn-primary navbar-btn" type="button" name="Back" ng-click="submitAnswer();decrementQuestionNo()" ng-disabled="isFirstQuestion()">Back</button>
+				<button class="btn navbar-btn" type="button" name="Back" ng-click="submitAnswer();decrementQuestionNo()" ng-disabled="isFirstQuestion()">Back</button>
 
-		    	
+	    	<button type="button" class="btn navbar-btn" name="save" ng-click="submitAnswer();incrementQuestionNo();" ng-disabled="isLastQuestion();">Next</button>
 
-		    	<button type="button" class="btn btn-success navbar-btn" name="save" ng-click="submitAnswer();incrementQuestionNo();" ng-disabled="isLastQuestion();">Next</button>
-
-		    	<button type="submit" class="btn btn-warning navbar-btn" name="Finish" ng-disabled="!isLastQuestion()" ng-click="submitAnswer();">Finish</button>
+	    	<button type="submit" class="btn btn-primary navbar-btn" name="Finish" ng-disabled="!isLastQuestion()" ng-click="submitAnswer();">Finish</button>
 		    </div>
 			<small style="float:right">
 				Powered By <a href="http://www.infibeam.com">Infibeam</a>
 			</small>
 		</div>
 </form>
-<% end %>
 </div>
